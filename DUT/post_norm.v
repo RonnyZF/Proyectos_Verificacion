@@ -1,4 +1,5 @@
-/////////////////////////////////////////////////////////////////////
+//y1  #7 ud033(clk, exp_div, exp_div_del);
+/*  *//////////////////////////////////////////////////////////////////////
 ////                                                             ////
 ////  Post Norm                                                  ////
 ////  Floating Point Post Normalisation Unit                     ////
@@ -533,11 +534,12 @@ assign ine =	op_f2i ? f2i_ine :
 		op_i2f ? (|fract_trunc) :
 		((r & !dn) | (s & !dn) | max_num | (op_div & !rem_00));
 
+endmodule  
 // ---------------------------------------------------------------------
 // Debugging Stuff
 
 // synopsys translate_off
-
+/*
 wire	[26:0]	fracta_del, fractb_del;
 wire	[2:0]	grs_del;
 wire		dn_del;
@@ -589,10 +591,9 @@ delay1  #0 ud029(clk, left_right, lr);
 delay1  #7 ud030(clk, shift_right, shr);
 delay1  #7 ud031(clk, shift_left, shl);
 delay1 #22 ud032(clk, fract_out_rnd2a, fract_out_rnd2a_del);
-
 delay1  #7 ud033(clk, exp_div, exp_div_del);
-
-always @(test.error_event)
+*/
+/*always @(test.error_event)
    begin
 
 	$display("\n----------------------------------------------");
@@ -621,9 +622,9 @@ always @(test.error_event)
 // synopsys translate_on
 
 endmodule
-
+*/
 // synopsys translate_off
-
+/*
 module delay1(clk, in, out);
 parameter	N = 1;
 input	[N:0]	in;
@@ -672,5 +673,5 @@ always @(posedge clk)
 	out <= #1 r2;
 
 endmodule
-
+*/
 // synopsys translate_on

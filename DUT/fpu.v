@@ -1,3 +1,4 @@
+// Code your design here
 /////////////////////////////////////////////////////////////////////
 ////                                                             ////
 ////  FPU                                                        ////
@@ -33,16 +34,21 @@
 /////////////////////////////////////////////////////////////////////
 
 `timescale 1ns / 100ps
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/except.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/post_norm.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm_fmul.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/primitives.v"
 
 /*
 
 FPU Operations (fpu_op):
 ========================
 
-0 = add
-1 = sub
-2 = mul
-3 = div
+0 = add 000
+1 = sub 001
+2 = mul 010
+3 = div 011
 4 =
 5 =
 6 =
@@ -51,10 +57,10 @@ FPU Operations (fpu_op):
 Rounding Modes (rmode):
 =======================
 
-0 = round_nearest_even
-1 = round_to_zero
-2 = round_up
-3 = round_down
+0 = round_nearest_even 00
+1 = round_to_zero      01
+2 = round_up           10
+3 = round_down         11
 
 */
 
@@ -474,7 +480,7 @@ always @(posedge clk)
 
 always @(posedge clk)
 	snan <= #1 snan_d;
-
+/*
 // synopsys translate_off
 wire		mul_uf_del;
 wire		uf2_del, ufb2_del, ufc2_del,  underflow_d_del;
@@ -556,5 +562,5 @@ always @(posedge clk)
 
 always @(posedge clk)
 	div_by_zero <= #1 opa_nan_r & !opa_00 & !opa_inf & opb_00;
-
+*/
 endmodule
