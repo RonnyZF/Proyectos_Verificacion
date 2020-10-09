@@ -17,18 +17,18 @@ class monitor;
     forever
       begin
         @ (posedge intf.clk)
-        if (intf.rd_en == 1) //CAMBIAR
+        if (intf.rmode == 0) //CAMBIAR
         begin
         sb_value = sb.store.pop_back();
-          if( sb_value !== intf.data_out) // Get expected value from scoreboard and compare with DUT output
+          if( sb_value !== intf.out) // Get expected value from scoreboard and compare with DUT output
             begin
-            $display(" * ERROR * DUT data is %b :: SB data is %b ", intf.data_out,sb_value );
+            $display(" * ERROR * DUT data is %b :: SB data is %b ", intf.out,sb_value );
             err_count = err_count + 1;
             check_count = check_count + 1;
             end
           else
             begin
-            $display(" * PASS * DUT data is %b :: SB data is %b ", intf.data_out,sb_value );
+            $display(" * PASS * DUT data is %b :: SB data is %b ", intf.out,sb_value );
             check_count = check_count + 1;
             end
         end

@@ -8,49 +8,81 @@ class driver;
     this.intf = intf;
     this.sb = sb;
   endfunction
-        
-  task reset();  // Reset method
-    $display("Executing Reset\n");
-    intf.rmode = 0;
-    intf.fpu_op = 0;
-    intf.opa = 0;
-    intf.opb = 0;
-//    @ (negedge intf.clk);
-//    intf.rst = 0;
-
-
-  endtask
-        
-  task suma(input integer iteration);
-    $display("TASK SUMA\n");
+                
+  task add(input integer iteration);
+    $display("TASK ADD\n");
     repeat(iteration)
     begin
       sti = new();
       @ (negedge intf.clk);
       if(sti.randomize()) // Generate stimulus
-        $display("Driving opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
+        $display("Adding opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
         intf.opa = sti.opa; // Drive to DUT
       	intf.opb = sti.opb; // Drive to DUT
         intf.fpu_op = 0;
       	intf.rmode = 0;
-      	
+     	
       sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
   endtask
- /* 
-  task read(input integer iteration);
+  
+  task sub(input integer iteration);
+    $display("TASK SUB\n");
     repeat(iteration)
     begin
+      sti = new();
       @ (negedge intf.clk);
-      intf.rd_en = 1;
-       //intf.rd_cs = 1;
+      if(sti.randomize()) // Generate stimulus
+        $display("Substract opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
+        intf.opa = sti.opa; // Drive to DUT
+      	intf.opb = sti.opb; // Drive to DUT
+        intf.fpu_op = 1;
+      	intf.rmode = 0;
+     	
+      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
     end
-      @ (negedge intf.clk);
-      intf.rd_en = 0;
-    //intf.rd_cs = 0;
+     @ (negedge intf.clk);
+
   endtask
   
-*/
+  task mul(input integer iteration);
+    $display("TASK MUL\n");
+    repeat(iteration)
+    begin
+      sti = new();
+      @ (negedge intf.clk);
+      if(sti.randomize()) // Generate stimulus
+        $display("Multiplying opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
+        intf.opa = sti.opa; // Drive to DUT
+      	intf.opb = sti.opb; // Drive to DUT
+        intf.fpu_op = 2;
+      	intf.rmode = 0;
+     	
+      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+    end
+     @ (negedge intf.clk);
+
+  endtask
+  
+  task div(input integer iteration);
+    $display("TASK DIV\n");
+    repeat(iteration)
+    begin
+      sti = new();
+      @ (negedge intf.clk);
+      if(sti.randomize()) // Generate stimulus
+        $display("Dividing opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
+        intf.opa = sti.opa; // Drive to DUT
+      	intf.opb = sti.opb; // Drive to DUT
+        intf.fpu_op = 3;
+      	intf.rmode = 0;
+     	
+      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+    end
+     @ (negedge intf.clk);
+
+  endtask
+ 
 endclass

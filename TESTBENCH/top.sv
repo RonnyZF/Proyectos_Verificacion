@@ -1,12 +1,23 @@
 module top();
+  //---------------------------------------
+  //clock signal declaration
+  //---------------------------------------
   reg clk = 0;
-  initial // clock generator
+  
+  //---------------------------------------
+  //clock generation
+  //---------------------------------------
+  initial 
   forever #5 clk = ~clk;
    
-  // Interface
+  //---------------------------------------
+  //interface instance
+  //---------------------------------------
   intf_cnt intf(clk);
   
-  // DUT connection	
+  //---------------------------------------
+  //DUT instance
+  //---------------------------------------
   fpu dut (
     .clk(clk),
     .rmode(intf.rmode),
@@ -25,6 +36,7 @@ module top();
   );
 
   initial begin
+    //enable wave dump
     $dumpfile("verilog.vcd");
     $dumpvars(0);
   end
