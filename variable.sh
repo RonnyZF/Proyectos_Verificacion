@@ -1,5 +1,5 @@
 #!/bin/sh
-export LOGNAME=dleon
+export LOGNAME=rzarate
 export SYNOPSYS_HOME=/mnt/vol_NFS_Zener/tools/synopsys/apps/
 export VCS_HOME=/mnt/vol_NFS_Zener/tools/synopsys/apps/vcs-mx2/M-2017.03
 export PATH=$PATH:$VCS_HOME/linux64/bin
