@@ -1,7 +1,8 @@
 // C program to convert a real value 
 // to IEEE 754 floating point representaion 
 
-#include <stdio.h> 
+#include <stdio.h>
+
 
 void printBinary(int n, int i) 
 { 
