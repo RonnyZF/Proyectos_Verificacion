@@ -1,0 +1,14 @@
+../RTL/except.v
+../RTL/post_norm.v
+../RTL/pre_norm.v
+../RTL/pre_norm_fmul.v
+../RTL/primitives.v
+../RTL/fpu.v
+../TB/TESTBENCH/interface.sv
+../TB/TESTBENCH/stimulus.sv
+../TB/TESTBENCH/scoreboard.sv
+../TB/TESTBENCH/driver.sv
+../TB/TESTBENCH/monitor.sv
+../TB/TESTBENCH/env.sv
+../TB/TESTBENCH/test_1.sv
+../TB/TESTBENCH/top.sv
