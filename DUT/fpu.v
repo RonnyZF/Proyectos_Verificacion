@@ -34,11 +34,11 @@
 /////////////////////////////////////////////////////////////////////
 
 `timescale 1ns / 100ps
-//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/except.v"
-//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/post_norm.v"
-//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm.v"
-//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm_fmul.v"
-//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/primitives.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/except.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/post_norm.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm_fmul.v"
+`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/primitives.v"
 
 /*
 
@@ -480,6 +480,47 @@ always @(posedge clk)
 
 always @(posedge clk)
 	snan <= #1 snan_d;
+// Status Outputs
+always @(posedge clk)
+	qnan <= #1	fpu_op_r3[2] ? 0 : (
+						snan_d | qnan_d | (ind_d & !fasu_op_r2) |
+						(opa_00 & opb_00 & fpu_op_r3==3'b011) |
+						(((opa_inf & opb_00) | (opb_inf & opa_00 )) & fpu_op_r3==3'b010)
+					   );
+
+assign inf_fmul = 	(((inf_mul_r | inf_mul2) & (rmode_r3==2'h0)) | opa_inf | opb_inf) & 
+			!((opa_inf & opb_00) | (opb_inf & opa_00 )) &
+			fpu_op_r3==3'b010;
+
+always @(posedge clk)
+	inf <= #1	fpu_op_r3[2] ? 0 :
+			(!(qnan_d | snan_d) & (
+						((&out_d[30:23]) & !(|out_d[22:0]) & !(opb_00 & fpu_op_r3==3'b011)) |
+						(inf_d & !(ind_d & !fasu_op_r2) & !fpu_op_r3[1]) |
+						inf_fmul |
+						(!opa_00 & opb_00 & fpu_op_r3==3'b011) |
+						(fpu_op_r3==3'b011 & opa_inf & !opb_inf)
+					      )
+			);
+
+assign output_zero_fasu = out_d_00 & !(inf_d | snan_d | qnan_d);
+assign output_zero_fdiv = (div_00 | (out_d_00 & !opb_00)) & !(opa_inf & opb_inf) &
+			  !(opa_00 & opb_00) & !(qnan_d | snan_d);
+assign output_zero_fmul = (out_d_00 | opa_00 | opb_00) &
+			  !(inf_mul_r | inf_mul2 | opa_inf | opb_inf | snan_d | qnan_d) &
+			  !(opa_inf & opb_00) & !(opb_inf & opa_00);
+
+always @(posedge clk)
+	zero <= #1	fpu_op_r3==3'b101 ?	out_d_00 & !(snan_d | qnan_d):
+			fpu_op_r3==3'b011 ?	output_zero_fdiv :
+			fpu_op_r3==3'b010 ?	output_zero_fmul :
+						output_zero_fasu ;
+
+always @(posedge clk)
+	opa_nan_r <= #1 !opa_nan & fpu_op_r2==3'b011;
+
+always @(posedge clk)
+	div_by_zero <= #1 opa_nan_r & !opa_00 & !opa_inf & opb_00;
 /*
 // synopsys translate_off
 wire		mul_uf_del;
