@@ -34,11 +34,11 @@
 /////////////////////////////////////////////////////////////////////
 
 `timescale 1ns / 100ps
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/except.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/post_norm.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm_fmul.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/primitives.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/except.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/post_norm.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/pre_norm_fmul.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/P1/RTL/primitives.v"
 
 /*
 
