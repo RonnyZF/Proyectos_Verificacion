@@ -25,13 +25,15 @@ class driver;
       sti = new();
       @ (negedge intf.clk);
       if(sti.randomize()) // Generate stimulus
+        $display("decimal opa = %d and opb = %d in the DUT\n", sti.opa, sti.opb);
         $display("Adding opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
         intf.opa = sti.opa; // Drive to DUT
       	intf.opb = sti.opb; // Drive to DUT
         intf.fpu_op = 0;
       	intf.rmode = 0;
      	
-      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opb.push_front(sti.opb);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
@@ -50,7 +52,7 @@ class driver;
         intf.fpu_op = 1;
       	intf.rmode = 0;
      	
-      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
@@ -69,7 +71,7 @@ class driver;
         intf.fpu_op = 2;
       	intf.rmode = 0;
      	
-      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
@@ -88,7 +90,7 @@ class driver;
         intf.fpu_op = 3;
       	intf.rmode = 0;
      	
-      sb.store.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 

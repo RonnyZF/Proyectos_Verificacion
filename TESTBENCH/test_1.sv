@@ -5,12 +5,12 @@ program testcase(intf_cnt intf);
     begin
     fork
       begin
-      env.drvr.add(10);
+      env.drvr.add(1);
       end
-      begin
+      /*begin
         @(negedge intf.clk)  //This to avoid reading and writing when fifo is empty. 
       env.drvr.sub(10);
-      end
+      end*/
     join 
       if (env.mntr.err_count == 0 && env.mntr.check_count > 0)
         $display("\n***** Test Passed *****\n");
