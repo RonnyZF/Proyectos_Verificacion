@@ -34,11 +34,11 @@
 /////////////////////////////////////////////////////////////////////
 
 `timescale 1ns / 100ps
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/except.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/post_norm.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm_fmul.v"
-`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/primitives.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/except.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/post_norm.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/pre_norm_fmul.v"
+//`include "/mnt/vol_NFS_Zener/WD_ESPEC/dleon/Veri/prueba_fpu/RTL/primitives.v"
 
 /*
 

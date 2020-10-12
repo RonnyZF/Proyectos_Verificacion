@@ -46,6 +46,7 @@ class driver;
       sti = new();
       @ (negedge intf.clk);
       if(sti.randomize()) // Generate stimulus
+        $display("decimal opa = %d and opb = %d in the DUT\n", sti.opa, sti.opb);
         $display("Substract opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
         intf.opa = sti.opa; // Drive to DUT
       	intf.opb = sti.opb; // Drive to DUT
@@ -53,6 +54,7 @@ class driver;
       	intf.rmode = 0;
      	
       sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opb.push_front(sti.opb);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
@@ -65,6 +67,7 @@ class driver;
       sti = new();
       @ (negedge intf.clk);
       if(sti.randomize()) // Generate stimulus
+        $display("decimal opa = %d and opb = %d in the DUT\n", sti.opa, sti.opb);
         $display("Multiplying opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
         intf.opa = sti.opa; // Drive to DUT
       	intf.opb = sti.opb; // Drive to DUT
@@ -72,6 +75,7 @@ class driver;
       	intf.rmode = 0;
      	
       sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opb.push_front(sti.opb);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
@@ -84,6 +88,7 @@ class driver;
       sti = new();
       @ (negedge intf.clk);
       if(sti.randomize()) // Generate stimulus
+        $display("decimal opa = %d and opb = %d in the DUT\n", sti.opa, sti.opb);
         $display("Dividing opa = 0x%h and opb = 0x%h in the DUT\n", sti.opa, sti.opb);
         intf.opa = sti.opa; // Drive to DUT
       	intf.opb = sti.opb; // Drive to DUT
@@ -91,6 +96,7 @@ class driver;
       	intf.rmode = 0;
      	
       sb.opa.push_front(sti.opa);// Cal exp value and store in Scoreboard
+      sb.opb.push_front(sti.opb);// Cal exp value and store in Scoreboard
     end
      @ (negedge intf.clk);
 
