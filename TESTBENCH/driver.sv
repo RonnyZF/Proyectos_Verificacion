@@ -1,3 +1,12 @@
+//`include "../TB/TESTBENCH/interface.sv"
+//`include "../TB/TESTBENCH/stimulus.sv"
+//`include "../TB/TESTBENCH/scoreboard.sv"
+//`include "../TB/TESTBENCH/driver.sv"
+//`include "../TB/TESTBENCH/monitor.sv"
+//`include "../TB/TESTBENCH/env.sv"
+//`include "../TB/TESTBENCH/test_1.sv"
+//`include "test_2.sv"
+//`include "../TB/TESTBENCH/top.sv"
 class driver;
   stimulus sti;
   scoreboard sb;
