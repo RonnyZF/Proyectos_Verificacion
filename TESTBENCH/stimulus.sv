@@ -1,10 +1,7 @@
 class stimulus;
-  //rand  logic[31:0] opa;
-  //rand  logic[31:0] opb;
-
-  logic[31:0] opa = 32'd2;
-  logic[31:0] opb = 32'd3;
-  rand integer delay;
+  rand  logic[31:0] opa;
+  rand  logic[31:0] opb;
   
-  constraint const_delay {delay inside {[20:50]}; }  
+  constraint const_opa {opa inside {[0:50]}; }  
+  constraint const_opb {opb inside {[0:50]}; }  
 endclass
