@@ -4,33 +4,24 @@ module whitebox();
 
   //Inmediate assertion
   always_comb begin
-    empty_0: assert (`DUV_PATH.empty && (`DUV_PATH.status_cnt == 0));
+    assert_test_0: assert (`DUV_PATH.overflow != `DUV_PATH.underflow );
   end
-  
-  //Defered assertion
+  //Inmediate assertion
   always_comb begin
-    empty_1: assert #0 (`DUV_PATH.empty && (`DUV_PATH.status_cnt == 0));
+    assert_1: assert ((`DUV_PATH.opb == 0) && (`DUV_PATH.fpu_op == 3) && (`DUV_PATH.div_by_zero == 1) );
+    //else
+    //  $error("error en: div_by_zero, valor diferente a 1");
   end
 
   property empty_p_0;
     @(posedge `DUV_PATH.clk)
-    disable iff (`DUV_PATH.rst)
-    (`DUV_PATH.empty && (`DUV_PATH.status_cnt ==0)) == 1;
-  endproperty
-
-  property empty_p_1;
-    @(posedge `DUV_PATH.clk)
-    disable iff (`DUV_PATH.rst)
-    $isunknown(`DUV_PATH.empty) == 0 |->
-    $isunknown(`DUV_PATH.full) == 0 |->
-    `DUV_PATH.status_cnt == 0 |->
-    `DUV_PATH.empty == 1;
+    disable iff ($isunknown(`DUV_PATH.out))
+    (`DUV_PATH.overflow != `DUV_PATH.underflow ) == 1;
   endproperty
 
   assert_empty_p_0: assert property (empty_p_0) else $error ("Rule1.1 empty signals violated");
-
-  assert_empty_p_1: assert property (empty_p_1) else $error ("Rule1.2 empty signals violated");
-
-    assert_full: assert property ( @(posedge `DUV_PATH.clk) (`DUV_PATH.status_cnt == 09'hFF) |-> `DUV_PATH.full == 1) else $error ("full signals violated");
   
 endmodule
+
+
+  

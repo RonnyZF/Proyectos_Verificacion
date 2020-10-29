@@ -5,5 +5,6 @@
 `include "monitor.sv"
 `include "env.sv"
 `include "test_1.sv"
+`include "assertions.sv"
 //`include "test_2.sv"
 `include "top.sv"

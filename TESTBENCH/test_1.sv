@@ -4,17 +4,8 @@ program testcase(intf_cnt intf);
   initial
     begin
         @(negedge intf.clk)
-        $display("\n***** EFECTUANDO LAS SUMAS *****\n");
-        $display("\n***** EFECTUANDO LAS SUMAS *****\n");
-        $display("\n***** EFECTUANDO LAS SUMAS *****\n");
-        env.drvr.add(15);
-        /*
-        @(negedge intf.clk)  //This to avoid reading and writing when fifo is empty. 
-        $display("\n***** EFECTUANDO LAS RESTAS *****\n");
-        $display("\n***** EFECTUANDO LAS RESTAS *****\n");
-        $display("\n***** EFECTUANDO LAS RESTAS *****\n");
-        env.drvr.sub(10);
-        */
+        $display("\n***** EFECTUANDO OPERACIONES *****\n");
+        env.drvr.operation(500);
       repeat(3)
         begin
           @ (negedge intf.clk);
