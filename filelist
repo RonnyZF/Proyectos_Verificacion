@@ -12,4 +12,5 @@ TESTBENCH/monitor.sv
 TESTBENCH/env.sv
 TESTBENCH/test_1.sv
 TESTBENCH/assertions.sv
+TESTBENCH/coverage.sv
 TESTBENCH/top.sv
