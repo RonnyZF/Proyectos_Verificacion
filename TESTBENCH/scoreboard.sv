@@ -17,10 +17,11 @@ endclass
 function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out, logic zero, snan, qnan, inf, overflow, underflow, div_by_zero);
   // Temp Variables Inicialization
   logic[31:0] opa, opb;
-  opa = $shortrealtobits(a);
-  opb = $shortrealtobits(b);
   shortreal temp_out = 0;
   logic [31:0] ieee_temp = $shortrealtobits(temp_out);
+  opa = $shortrealtobits(a);
+  opb = $shortrealtobits(b);
+  
   // Compute the desire operation
   if((b == 0) & (op == 3'b011)) begin // Division By Zero
     out = 32'b0;
@@ -30,7 +31,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
     inf = 1'b0;
     overflow = 1'b0;
     underflow = 1'b0;
-    div_by_Zero = 1'b1;
+    div_by_zero = 1'b1;
   end
   else if((opa[30:23] == 8'b1) | (opb[30:23] == 8'b1)) begin // SNaN
     out = 32'b0;
@@ -40,7 +41,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
     inf = 1'b0;
     overflow = 1'b0;
     underflow = 1'b0;
-    div_by_Zero = 1'b0;
+    div_by_zero = 1'b0;
   else begin // Normal Operation
     case(op)
       3'b000  : temp_out = a + b;
@@ -51,7 +52,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
     endcase
     ieee_temp = $shortrealtobits(temp_out);
     
-    // Compute the output with corresponding rounding mode
+    // Compute the outpuut with corresponding rounding mode
     if(round == 2'b00) begin // Round to Nearest Even
       if(ieee_temp[0] == 1'b1) begin
         ieee_temp += 1'b1;
