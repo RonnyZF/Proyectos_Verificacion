@@ -1,20 +1,12 @@
 
 class scoreboard;
-  logic[31:0] opa [$];
-  logic[31:0] opb [$];
-  logic[31:0] out [$];
+  logic [31:0] opa [$];
+  logic [31:0] opb [$];
   logic[2:0] fpu_op [$]; 
-  logic[1:0] rmode [$];
-  logic zero [$];
-  logic snan [$];
-  logic qnan [$];
-  logic inf [$];
-  logic overflow [$];
-  logic underflow [$];
-  logic div_by_zero [$];
+  logic[1:0] rmode [$];  
 endclass
 
-function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out, logic zero, snan, qnan, inf, overflow, underflow, div_by_zero);
+function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out, logic zero,logic snan,logic qnan,logic inf,logic overflow,logic underflow,logic div_by_zero);
   // Temp Variables Inicialization
   logic[31:0] opa, opb;
   shortreal temp_out = 0;
@@ -42,6 +34,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
     overflow = 1'b0;
     underflow = 1'b0;
     div_by_zero = 1'b0;
+  end
   else begin // Normal Operation
     case(op)
       3'b000  : temp_out = a + b;
@@ -74,7 +67,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
       inf = 1'b0;
       overflow = 1'b0;
       underflow = 1'b0;
-      div_by_Zero = 1'b0;
+      div_by_zero = 1'b0;
     end
     else if((ieee_temp[30:23] == 8'b0) & (ieee_temp[22:0] != 23'b0))begin
       out = ieee_temp;
@@ -84,7 +77,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
       inf = 1'b0;
       overflow = 1'b0;
       underflow = 1'b1;
-      div_by_Zero = 1'b0;
+      div_by_zero = 1'b0;
     end
     else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] == 23'b0))begin
       out = ieee_temp;
@@ -94,7 +87,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
       inf = 1'b1;
       overflow = 1'b1;
       underflow = 1'b0;
-      div_by_Zero = 1'b0;
+      div_by_zero = 1'b0;
     end
     else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] != 23'b0))begin
       out = ieee_temp;
@@ -104,7 +97,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
       inf = 1'b0;
       overflow = 1'b1;
       underflow = 1'b0;
-      div_by_Zero = 1'b0;
+      div_by_zero = 1'b0;
     end
     else begin
       out = ieee_temp;
@@ -114,7 +107,7 @@ function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] ro
       inf = 1'b0;
       overflow = 1'b0;
       underflow = 1'b0;
-      div_by_Zero = 1'b0;
+      div_by_zero = 1'b0;
     end
   end
   
