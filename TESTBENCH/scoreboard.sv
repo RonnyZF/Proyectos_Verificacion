@@ -1,17 +1,9 @@
 
 class scoreboard;
-  logic[31:0] opa [$];
-  logic[31:0] opb [$];
-  logic[31:0] out [$];
-  logic[2:0] fpu_op [$];
-  logic[1:0] rmode [$];
-  logic zero [$];
-  logic snan [$];
-  logic qnan [$];
-  logic inf [$];
-  logic overflow [$];
-  logic underflow[$];
-  logic div_by_zero [$];
+  logic [31:0] opa [$];
+  logic [31:0] opb [$];
+  logic[2:0] fpu_op [$]; 
+  logic[1:0] rmode [$];  
 endclass
 
 function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out, logic zero, snan, qnan, inf, overflow, underflow, div_by_zero);

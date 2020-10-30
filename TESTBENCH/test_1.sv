@@ -6,6 +6,7 @@ program testcase(intf_cnt intf);
         @(negedge intf.clk)
         $display("\n***** EFECTUANDO OPERACIONES *****\n");
         env.drvr.operation(500);
+        //env.drvr.task_nan(1);
       repeat(3)
         begin
           @ (negedge intf.clk);
