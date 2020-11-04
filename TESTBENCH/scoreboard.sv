@@ -4,9 +4,16 @@ class scoreboard;
   logic [31:0] opb [$];
   logic[2:0] fpu_op [$]; 
   logic[1:0] rmode [$];  
+  logic[31:0] out;
+
+  task prueba();
+  	out = opa.pop_back() + opb.pop_back();
+  	$display(" PRUEBA out is %d ", out);
+  endtask
 endclass
 
-function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out, logic zero,logic snan,logic qnan,logic inf,logic overflow,logic underflow,logic div_by_zero);
+
+function void reference_model(input shortreal a, b, logic[2:0] op, logic[1:0] round, output logic[31:0] out,output logic zero,output logic snan,output logic qnan,output logic inf,output logic overflow,output logic underflow,output logic div_by_zero);
   // Temp Variables Inicialization
   logic[31:0] opa, opb;
   shortreal temp_out = 0;
