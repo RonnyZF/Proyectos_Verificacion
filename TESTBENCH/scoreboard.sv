@@ -6,29 +6,28 @@ class scoreboard;
   logic[1:0] rmode [$];  
   logic[31:0] out;
 
-  task prueba();
-  	//out = opa.pop_back() + opb.pop_back();
-    rem = new($bitstoshortreal(opa.pop_back()), $bitstoshortreal(opb.pop_back()), fpu_op.pop_back(), rmode.pop_back())
+  task operation();
+    rem = new($bitstoshortreal(opa.pop_back()), $bitstoshortreal(opb.pop_back()), fpu_op.pop_back(), rmode.pop_back());
     rem.reference_model();
-    out.push_front(rem.out);
+    this.out = rem.out;
     $display(" PRUEBA out is %d ", out);
   endtask
 endclass
 
 class ref_model;
   // members in class
-  shortreal a
-  shortreal b
-  logic[2:0] op
-  logic[1:0] round
-  logic[31:0] out
-  logic zero
-  logic snan
-  logic qnan
-  logic inf
-  logic overflow
-  logic underflow
-  logic div_by_zero
+  shortreal a;
+  shortreal b;
+  logic[2:0] op;
+  logic[1:0] round;
+  logic[31:0] out;
+  logic zero;
+  logic snan;
+  logic qnan;
+  logic inf;
+  logic overflow;
+  logic underflow;
+  logic div_by_zero;
   
   // Constructor
   function new (shortreal a, shortreal b, logic[2:0] op, logic[1:0] round);
@@ -56,6 +55,7 @@ class ref_model;
     logic [31:0] ieee_temp = $shortrealtobits(temp_out);
     opa = $shortrealtobits(this.a);
     opb = $shortrealtobits(this.b);
+    $display("SCOREBOARD opa %d  opb %d", opa,opb);
 
     // Compute the desire operation
     if((this.b == 0) & (this.op == 3'b011)) begin // Division By Zero
@@ -153,6 +153,7 @@ class ref_model;
         this.div_by_zero = 1'b0;
       end
     end
+    $display("REF MODEL OUT %d", out);
   endfunction
 endclass
 

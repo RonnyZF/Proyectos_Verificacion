@@ -7,4 +7,5 @@ class stimulus;
   constraint const_opa {opa inside {[0:5000]}; }  
   constraint const_opb {opb inside {[0:5000]}; }  
   constraint const_fpu_op {fpu_op inside {[0:0]}; }  
+  constraint const_rmode {rmode inside {[0:0]}; }  
 endclass

@@ -5,10 +5,10 @@ program testcase(intf_cnt intf);
     begin
         @(negedge intf.clk)
         $display("\n***** EFECTUANDO OPERACIONES *****\n");
-        env.drvr.operation(4);
-        env.drvr.overflow(1);
-        env.drvr.operation(2);
-        env.drvr.div_zero(1);
+        env.drvr.operation(32);
+        //env.drvr.overflow(1);
+        //env.drvr.operation(2);
+        //env.drvr.div_zero(1);
         //env.drvr.task_nan(1);
       repeat(30)
         begin

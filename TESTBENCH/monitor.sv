@@ -22,98 +22,25 @@ class monitor;
         @ (negedge intf.clk)
         if( $isunknown(intf.out)==0)
         begin
-          sb_fpu_op = sb.fpu_op.pop_back();
-          sb_rmode = sb.rmode.pop_back();
-          if (sb_fpu_op == 0) //ADD
-          begin
-            //sb_opa = sb.opa.pop_back();
-            //sb_opb = sb.opb.pop_back();
-
-            sb.prueba();
-
-
-            sb_out = sb.out;
-            //sb_out = sb_opa + sb_opb;
-            $display(" MONITOR SUMA");
-            //$display(" SCOREBOARD opa is %h :: opb is %h ", $shortrealtobits(sb_opa),$shortrealtobits(sb_opb) );
-            $display(" SCOREBOARD out is 0x%h :: decimal is %d ", $shortrealtobits(sb_out),sb_out );
-            $display(" SALIDA DUT out is 0x%h :: decimal is %d ", intf.out, $bitstoshortreal(intf.out) );
-              if( sb_out !== $bitstoshortreal(intf.out)) // Get expected value from scoreboard and comare with DUT output
-                begin
-                $display(" * ERROR * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                err_count = err_count + 1;
-                check_count = check_count + 1;
-                end
-              else
-                begin
-                $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                check_count = check_count + 1;
-                end
-          end
-          if (sb_fpu_op == 1) //SUB
-          begin
-            sb_opa = sb.opa.pop_back();
-            sb_opb = sb.opb.pop_back();
-            sb_out = sb_opa - sb_opb;
-            $display(" MONITOR RESTA");
-            $display(" SCOREBOARD opa is %h :: opb is %h ", $shortrealtobits(sb_opa),$shortrealtobits(sb_opb) );
-            $display(" SCOREBOARD out is 0x%h :: decimal is %d ", $shortrealtobits(sb_out) ,sb_out );
-            $display(" SALIDA DUT out is 0x%h :: decimal is %d ", intf.out,intf.out );
-              if( sb_out !== $bitstoshortreal(intf.out)) // Get expected value from scoreboard and comare with DUT output
-                begin
-                $display(" * ERROR * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                err_count = err_count + 1;
-                check_count = check_count + 1;
-                end
-              else
-                begin
-                $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                check_count = check_count + 1;
-                end
-          end
-          if (sb_fpu_op == 2) //MUL
-          begin
-            sb_opa = sb.opa.pop_back();
-            sb_opb = sb.opb.pop_back();
-            sb_out = sb_opa * sb_opb;
-            $display(" MONITOR MULT");
-            $display(" SCOREBOARD opa is %h :: opb is %h ", $shortrealtobits(sb_opa),$shortrealtobits(sb_opb) );
-            $display(" SCOREBOARD out is 0x%h :: decimal is %d ", $shortrealtobits(sb_out) ,sb_out );
-            $display(" SALIDA DUT out is 0x%h :: decimal is %d ", intf.out,intf.out );
-              if( sb_out !== $bitstoshortreal(intf.out)) // Get expected value from scoreboard and comare with DUT output
-                begin
-                $display(" * ERROR * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                err_count = err_count + 1;
-                check_count = check_count + 1;
-                end
-              else
-                begin
-                $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                check_count = check_count + 1;
-                end
-          end
-          if (sb_fpu_op == 3) //DIV
-          begin
-            sb_opa = sb.opa.pop_back();
-            sb_opb = sb.opb.pop_back();
-            sb_out = sb_opa / sb_opb;
-            $display(" MONITOR DIVISION");
-            $display(" SCOREBOARD opa is %h :: opb is %h ", $shortrealtobits(sb_opa),$shortrealtobits(sb_opb) );
-            $display(" SCOREBOARD out is 0x%h :: decimal is %d ", $shortrealtobits(sb_out) ,sb_out );
-            $display(" SALIDA DUT out is 0x%h :: decimal is %d ", intf.out,intf.out );
-              if( sb_out !== $bitstoshortreal(intf.out)) // Get expected value from scoreboard and comare with DUT output
-                begin
-                $display(" * ERROR * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                err_count = err_count + 1;
-                check_count = check_count + 1;
-                end
-              else
-                begin
-                $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
-                check_count = check_count + 1;
-                end
-          end
-        end
+          	sb_fpu_op = sb.fpu_op.pop_back();
+          	sb_rmode = sb.rmode.pop_back();
+	    	sb.operation();
+	        sb_out = sb.out;
+	        $display(" MONITOR SUMA");
+	        $display(" SCOREBOARD out is 0x%h :: decimal is %d ", $shortrealtobits(sb_out),sb_out );
+	        $display(" SALIDA DUT out is 0x%h :: decimal is %d ", intf.out, $bitstoshortreal(intf.out) );
+	          if( sb_out !== $bitstoshortreal(intf.out)) // Get expected value from scoreboard and comare with DUT output
+	            begin
+	            $display(" * ERROR * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
+	            err_count = err_count + 1;
+	            check_count = check_count + 1;
+	            end
+	          else
+	            begin
+	            $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, $shortrealtobits(sb_out) );
+	            check_count = check_count + 1;
+	            end
+	    end  
       end
   endtask
 endclass
