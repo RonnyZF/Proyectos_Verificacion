@@ -1,24 +1,7 @@
 `define DUV_PATH top.dut
 
 module whitebox();
-/*
-  fpu dut (
-    .clk(clk),
-    .rmode(intf.rmode),
-    .fpu_op(intf.fpu_op),
-    .opa(intf.opa),
-    .opb(intf.opb),
-    .out(intf.out),
-    .inf(intf.inf),
-    .snan(intf.snan),
-    .qnan(intf.qnan),
-    .ine(intf.ine),
-    .overflow(intf.overflow),
-    .underflow(intf.underflow),
-    .zero(intf.zero),
-    .div_by_zero(intf.div_by_zero)
-  );
-*/
+
 //Constantes
 
 parameter infinito = 32'h7F800000;
@@ -29,120 +12,123 @@ parameter multi = 8'b010;
 parameter divi = 8'b011;
 parameter NumMax = 32'h7F7FFFFF;
 parameter NumMin = 32'h00000001;
-parameter holis = ((`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi));
+parameter uno = 32'h3F800000;
 
 //******************Aserciones**************************
 
-  //Inmediate assertion
- /* 
-  always_comb begin //division por zero
-    a0: assert ((`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi));
-  end
 
-    property a_p_1;
-    @(negedge `DUV_PATH.clk)
-    disable iff (($isunknown(`DUV_PATH.div_by_zero)==0) ||`DUV_PATH.div_by_zero == 0)
-    (`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi)==1;
-    endproperty
+property a1;
+//disable iff(((`DUV_PATH.opb === cero) && (`DUV_PATH.fpu_op == divi))==0)
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi)) |-> ##[2:10] $rose(`DUV_PATH.div_by_zero);
+endproperty
+assert_a1: assert property (a1);
 
-  always_comb begin //division por zero
-    a1: assert (!((`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi) && (`DUV_PATH.div_by_zero == 1)));
-  end
-  */
-    property a1;
-    //disable iff(((`DUV_PATH.opb === cero) && (`DUV_PATH.fpu_op == divi))==0)
-    disable iff(`DUV_PATH.div_by_zero == 0)
-    @(posedge `DUV_PATH.clk) (((`DUV_PATH.opb == cero) && (`DUV_PATH.fpu_op == divi)))&& (`DUV_PATH.div_by_zero == 1);
-    //@(posedge `DUV_PATH.clk)  $rose(holis==1) |-> ##4 $`DUV_PATH.div_by_zero == 1;
-    endproperty
+//GENERAR CASO    
+property a2; //A=-B, fpu_op = sum => Zero = 1
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa[31]) == !(`DUV_PATH.opb[31]))&& ((`DUV_PATH.opa[30:0]) == (`DUV_PATH.opb[30:0])) && (`DUV_PATH.fpu_op == suma))|-> ##[2:10] $rose(`DUV_PATH.zero);
+endproperty
+assert_a2: assert property (a2);
 
-    assert_a1: assert property (a1);
 
-  always_comb begin //A=-B, fpu_op = sum => Zero = 1
-    a2: assert ((`DUV_PATH.opa == -(`DUV_PATH.opb)) && (`DUV_PATH.fpu_op == suma) && (`DUV_PATH.zero == 1)); // consultar 
-  end
+property a3; //A = B => A-B=0 => Zero = 1 
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == `DUV_PATH.opb) && (`DUV_PATH.fpu_op == resta)) |-> ##[2:10] $rose(`DUV_PATH.zero);
+endproperty
+assert_a3: assert property (a3);
 
-  always_comb begin //A = B => A-B=0 => Zero = 1
-    a3: assert ((`DUV_PATH.opa == `DUV_PATH.opb) && (`DUV_PATH.fpu_op == resta) && (`DUV_PATH.zero == 1));
-  end
 
-  always_comb begin //A = 0 ó B = 0, fpu_op = mul => Zero = 1
-    a4: assert (((`DUV_PATH.opa == cero) ||(`DUV_PATH.opb == cero)) && (`DUV_PATH.fpu_op == multi) && (`DUV_PATH.zero == 1));
-  end
- 
-  always_comb begin // A = 0, B = cont !=0,fpu_op = div => Zero = 1
-    a5: assert ((`DUV_PATH.opa == cero) && (`DUV_PATH.fpu_op == divi) && (`DUV_PATH.zero == 1));
-  end
+property a4; //A = 0 ó B = 0, fpu_op = mul => Zero = 1
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa == cero) ||(`DUV_PATH.opb == cero)) && (`DUV_PATH.fpu_op == multi)) |-> ##[2:10] $rose(`DUV_PATH.zero);
+endproperty
+assert_a4: assert property (a4);
 
-  always_comb begin // ninguna bandera puede ser XXXXX ó Z
-    a6: assert (!($isunknown(`DUV_PATH.inf)||$isunknown(`DUV_PATH.snan)||$isunknown(`DUV_PATH.qnan)||$isunknown(`DUV_PATH.ine)||$isunknown(`DUV_PATH.overflow)||$isunknown(`DUV_PATH.underflow)||$isunknown(`DUV_PATH.zero)||$isunknown(`DUV_PATH.div_by_zero)));
-  end
+property a5; // A = 0, B = cont !=0,fpu_op = div => Zero = 1
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == cero) &&(`DUV_PATH.opb != cero)&& (`DUV_PATH.fpu_op == divi)) |-> ##[2:10] $rose(`DUV_PATH.zero);
+endproperty
+assert_a5: assert property (a5);
+
+
+always_comb begin // ninguna bandera puede ser XXXXX ó Z
+a6: assert (!($isunknown(`DUV_PATH.inf)||$isunknown(`DUV_PATH.snan)||$isunknown(`DUV_PATH.qnan)||$isunknown(`DUV_PATH.ine)||$isunknown(`DUV_PATH.overflow)||$isunknown(`DUV_PATH.underflow)||$isunknown(`DUV_PATH.zero)||$isunknown(`DUV_PATH.div_by_zero)));
+end
+
 /*
   always_comb begin //si A o B cambia y el operador no cambia, resultado debe cambiar.
     a7: assert ();
   end
-
-  always_comb begin // el reloj siempre debe correr
-    a8: assert ();
-  end
 */
-  always_comb begin //inf+-const = inf
-    a9: assert (((`DUV_PATH.opa == infinito) && (`DUV_PATH.opb != infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta)) && (`DUV_PATH.inf == 1));
-  end
+property a8; // el reloj siempre debe correr
+@(posedge `DUV_PATH.clk) (`DUV_PATH.clk == 0);
+endproperty
+assert_a8: assert property (a8);
 
-  always_comb begin//const+-inf = inf
-    a10: assert (((`DUV_PATH.opa != infinito) && (`DUV_PATH.opb == infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta)) && (`DUV_PATH.inf == 1));
-  end
+property a9; //inf+-const = inf
+@(negedge `DUV_PATH.clk)  (((`DUV_PATH.opa == infinito) && (`DUV_PATH.opb != infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta))) |-> ##[2:10] $rose(`DUV_PATH.inf);
+endproperty
+assert_a9: assert property (a9);
 
-  always_comb begin//inf*const = inf; const !=0
-    a11: assert (((`DUV_PATH.opa == infinito) && ((`DUV_PATH.opb != infinito)&&(`DUV_PATH.opb != cero))) && (`DUV_PATH.fpu_op == multi) && (`DUV_PATH.inf == 1));
-  end
+property a10; //const+-inf = inf
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa != infinito) && (`DUV_PATH.opb == infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta))) |-> ##[2:10] $rose(`DUV_PATH.inf);
+endproperty
+assert_a10: assert property (a10);
 
-  always_comb begin//const*inf = inf; const !=0
-    a12: assert ((((`DUV_PATH.opa != infinito)&&(`DUV_PATH.opa != cero)) && (`DUV_PATH.opb == infinito)) && (`DUV_PATH.fpu_op == multi) && (`DUV_PATH.inf == 1));
-  end
+property a11;//inf*const = inf; const !=0
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa == infinito) && ((`DUV_PATH.opb != infinito)&&(`DUV_PATH.opb != cero))) && (`DUV_PATH.fpu_op == multi)) |-> ##[2:10] $rose(`DUV_PATH.inf);
+endproperty
+assert_a11: assert property (a11);
 
-  always_comb begin//inf/const = inf; const !=0
-    a13: assert (((`DUV_PATH.opa == infinito) && ((`DUV_PATH.opb != infinito)&&(`DUV_PATH.opb != cero))) && (`DUV_PATH.fpu_op == divi) && (`DUV_PATH.inf == 1));
-  end
+property a12;//inf*const = inf; const !=0
+@(negedge `DUV_PATH.clk) ((((`DUV_PATH.opa != infinito)&&(`DUV_PATH.opa != cero)) && (`DUV_PATH.opb == infinito)) && (`DUV_PATH.fpu_op == multi)) |-> ##[2:10] $rose(`DUV_PATH.inf);
+endproperty
+assert_a12: assert property (a12);
 
-  always_comb begin //inf*0 ó 0*inf = NaN
-    a14: assert (( ((`DUV_PATH.opa == cero)&&(`DUV_PATH.opb == infinito)) || ((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == cero)) ) && (`DUV_PATH.fpu_op == multi) && (`DUV_PATH.qnan == 1));
-  end
+property a13;//inf/const = inf; const !=0
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == infinito) && ((`DUV_PATH.opb != infinito)&&(`DUV_PATH.opb != cero))) && (`DUV_PATH.fpu_op == divi) |-> ##[2:10] $rose(`DUV_PATH.inf);
+endproperty
+assert_a13: assert property (a13);
 
-  always_comb begin // +-inf+-inf = NaN
-    a15: assert (((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta)) && (`DUV_PATH.qnan == 1));
-  end
+property a14; //inf*0 ó 0*inf = NaN
+@(negedge `DUV_PATH.clk)  (( ((`DUV_PATH.opa == cero)&&(`DUV_PATH.opb == infinito)) || ((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == cero)) ) && (`DUV_PATH.fpu_op == multi)) |-> ##[2:10] $rose(`DUV_PATH.qnan);
+endproperty
+assert_a14: assert property (a14);
 
-  always_comb begin// +-inf / +-inf = NaN
-    a16: assert (((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == infinito)) && (`DUV_PATH.fpu_op == divi) && (`DUV_PATH.qnan == 1));
-  end
+property a15; // +-inf+-inf = NaN
+@(negedge `DUV_PATH.clk)  (((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta))) |-> ##[2:10] $rose(`DUV_PATH.qnan);
+endproperty
+assert_a15: assert property (a15);
 
-  always_comb begin //0/0 = NaN
-    a17: assert (((`DUV_PATH.opa == cero)&&(`DUV_PATH.opb == cero)) && (`DUV_PATH.fpu_op == divi) && (`DUV_PATH.qnan == 1));
-  end
+property a16;// +-inf / +-inf = NaN
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa == infinito)&&(`DUV_PATH.opb == infinito)) && (`DUV_PATH.fpu_op == divi)) |-> ##[2:10] $rose(`DUV_PATH.qnan);
+endproperty
+assert_a16: assert property (a16);
 
-  always_comb begin // Si resultado es mayor a NumMax, overflow =1
-    a18: assert ((`DUV_PATH.out <= NumMax)&& (`DUV_PATH.overflow == 1)); // consulta
-  end
+property a17; //0/0 = NaN
+@(negedge `DUV_PATH.clk) (((`DUV_PATH.opa == cero)&&(`DUV_PATH.opb == cero)) && (`DUV_PATH.fpu_op == divi))  |-> ##[2:10] $rose(`DUV_PATH.qnan);
+endproperty
+assert_a17: assert property (a17);
 
-  always_comb begin //Si resultado es menor que NumMin underflow = 1
-    a19: assert ((`DUV_PATH.out >= NumMin) && (`DUV_PATH.overflow == 1));// consulta
-  end
+property a18; // Si resultado es mayor a NumMax, overflow =1
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == NumMax)&&(`DUV_PATH.opb <= NumMax)&&((`DUV_PATH.fpu_op == multi)||(`DUV_PATH.fpu_op == suma))) |-> ##[2:10] $rose(`DUV_PATH.overflow); // consulta
+endproperty
+assert_a18: assert property (a18);
 
-  always_comb begin // underflow no puede ser igual que overflow cuando son 1
-    a20: assert (!((`DUV_PATH.overflow == 1)&&(`DUV_PATH.underflow == 1)));
-  end
+property a19; // Si resultado es mayor a NumMax, overflow =1
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa >= uno)&&(`DUV_PATH.opb == NumMax)&&((`DUV_PATH.fpu_op == multi)||(`DUV_PATH.fpu_op == suma))) |-> ##[2:10] $rose(`DUV_PATH.overflow); // consulta
+endproperty
+assert_a19: assert property (a19);
+
+property a20;//Si resultado es menor que NumMin underflow = 1
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == NumMin)&&(`DUV_PATH.opa >= NumMin)&&((`DUV_PATH.fpu_op == divi)||(`DUV_PATH.opa == resta))) |-> ##[2:10] $rose(`DUV_PATH.overflow);
+endproperty
+assert_a20: assert property (a20);
+/*
+property a21;
+@(negedge `DUV_PATH.clk) 
+endproperty
+assert_a21: assert property (a21);
+*/
+always_comb begin // underflow no puede ser igual que overflow cuando son 1
+a21: assert (!((`DUV_PATH.overflow == 1)&&(`DUV_PATH.underflow == 1)));
+end
 
 
-  property empty_p_0;
-    @(posedge `DUV_PATH.clk)
-    disable iff ($isunknown(`DUV_PATH.out))
-    (`DUV_PATH.overflow != `DUV_PATH.underflow ) == 1;
-  endproperty
-
-    
 endmodule
-
-
-  
