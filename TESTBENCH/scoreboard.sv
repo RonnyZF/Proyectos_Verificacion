@@ -7,17 +7,16 @@ class scoreboard;
   logic[31:0] out;
 
   task operation();
-    rem = new($bitstoshortreal(opa.pop_back()), $bitstoshortreal(opb.pop_back()), fpu_op.pop_back(), rmode.pop_back());
+    rem = new(opa.pop_back(), opb.pop_back(), fpu_op.pop_back(), rmode.pop_back());
     rem.reference_model();
     this.out = rem.out;
-    $display(" PRUEBA out is %d ", out);
   endtask
 endclass
 
 class ref_model;
   // members in class
-  shortreal a;
-  shortreal b;
+  logic[31:0] opa;
+  logic[31:0] opb;
   logic[2:0] op;
   logic[1:0] round;
   logic[31:0] out;
@@ -30,10 +29,10 @@ class ref_model;
   logic div_by_zero;
   
   // Constructor
-  function new (shortreal a, shortreal b, logic[2:0] op, logic[1:0] round);
+  function new (logic[31:0] opa, logic[31:0] opb, logic[2:0] op, logic[1:0] round);
     begin
-      this.a            = a;
-      this.b            = b;
+      this.opa          = opa;
+      this.opb          = opb;
       this.op           = op;
       this.round        = round;
       this.out          = 32'b0;
@@ -50,15 +49,14 @@ class ref_model;
 
   function void reference_model();
     // Temp Variables Inicialization
-    logic[31:0] opa, opb;
+    shortreal a, b;
     shortreal temp_out = 0;
     logic [31:0] ieee_temp = $shortrealtobits(temp_out);
-    opa = $shortrealtobits(this.a);
-    opb = $shortrealtobits(this.b);
-    $display("SCOREBOARD opa %d  opb %d", opa,opb);
+    a = $bitstoshortreal(this.opa);
+    b = $bitstoshortreal(this.opb);
 
     // Compute the desire operation
-    if((this.b == 0) & (this.op == 3'b011)) begin // Division By Zero
+    if((b == 0) & (this.op == 3'b011)) begin // Division By Zero
       this.out = 32'b0;
       this.zero = 1'b0;
       this.snan = 1'b0;
@@ -80,10 +78,10 @@ class ref_model;
     end
     else begin // Normal Operation
       case(this.op)
-        3'b000  : temp_out = this.a + this.b;
-        3'b001  : temp_out = this.a - this.b;
-        3'b010  : temp_out = this.a * this.b;
-        3'b011  : temp_out = this.a / this.b;
+        3'b000  : temp_out = a + b;
+        3'b001  : temp_out = a - b;
+        3'b010  : temp_out = a * b;
+        3'b011  : temp_out = a / b;
         default : temp_out = 0;
       endcase
       ieee_temp = $shortrealtobits(temp_out);
@@ -153,7 +151,6 @@ class ref_model;
         this.div_by_zero = 1'b0;
       end
     end
-    $display("REF MODEL OUT %d", out);
   endfunction
 endclass
 
