@@ -13,9 +13,9 @@ class funct_coverage;
     Feature_underflow: coverpoint intf.underflow;
     Feature_zero: coverpoint intf.zero;
     Feature_div_by_zero: coverpoint intf.div_by_zero;
-    Feature_data: coverpoint intf.opa {option.auto_bin_max=8;}
-    Feature_data: coverpoint intf.opb {option.auto_bin_max=8;}
-    Feature_data: coverpoint intf.out {option.auto_bin_max=8;}
+    Feature_opa: coverpoint intf.opa {option.auto_bin_max=8;}
+    Feature_opb: coverpoint intf.opb {option.auto_bin_max=8;}
+    Feature_out: coverpoint intf.out {option.auto_bin_max=8;}
     Feature_empty_seq: coverpoint intf.zero {bins seq = (0=>1=>0);}
     Feature_full_seq: coverpoint intf.overflow {bins seq = (0=>1=>0);}
   endgroup
