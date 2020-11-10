@@ -54,6 +54,7 @@ class ref_model;
     logic [31:0] ieee_temp = $shortrealtobits(temp_out);
     a = $bitstoshortreal(this.opa);
     b = $bitstoshortreal(this.opb);
+    $display("FPU_OP = %d and RMODE = %d \n", this.op, this.round);
 
     // Compute the desire operation
     if((b == 0) & (this.op == 3'b011)) begin // Division By Zero
@@ -89,7 +90,7 @@ class ref_model;
       // Compute the outpuut with corresponding rounding mode
       if(this.round == 2'b00) begin // Round to Nearest Even
         if(ieee_temp[0] == 1'b1) begin
-          ieee_temp += 1'b1;
+          //ieee_temp += 1'b1;
         end
       end
       else if(this.round == 2'b10) begin // Round to +Inf

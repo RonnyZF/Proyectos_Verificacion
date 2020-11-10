@@ -26,7 +26,6 @@ class driver;
         //$display("IEEE754 opa = %h and opb = %h in the DUT\n", intf.opa, intf.opb);
         intf.fpu_op = sti.fpu_op;
       	intf.rmode = sti.rmode;
-        $display("FPU_OP = %d and RMODE = %d \n", sti.fpu_op, sti.rmode);
       sb.opa.push_front(opa);// Cal exp value and store in Scoreboard
       sb.opb.push_front(opb);// Cal exp value and store in Scoreboard
       sb.fpu_op.push_front(sti.fpu_op);// Cal exp value and store in Scoreboard

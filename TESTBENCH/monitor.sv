@@ -25,7 +25,7 @@ class monitor;
           	$display("-------------------- Monitor Operation Check%d --------------------", (check_count+1));
 	    	sb.operation();
 	        sb_out = sb.out;
-	        $display(" SCOREBOARD out is 0x%h :: decimal is %f ", sb_out, $bitstoshortreal(sb_out) );
+	        $display(" SCOREBOARD  out is 0x%h :: decimal is %f ", sb_out, $bitstoshortreal(sb_out) );
 	        $display(" MONITOR DUT out is 0x%h :: decimal is %f ", intf.out, $bitstoshortreal(intf.out) );
 	          if( sb_out !== intf.out) // Get expected value from scoreboard and comare with DUT output
 	            begin
@@ -38,7 +38,7 @@ class monitor;
 	            $display(" * PASS * DUT data is 0x%h :: SB data is 0x%h \n", intf.out, sb_out );
 	            check_count = check_count + 1;
 	            end
-                $display("-------------------- End Operation Check --------------------");
+                $display("-------------------- ------- ------- ------- -----------------");
 	    end  
       end
   endtask
