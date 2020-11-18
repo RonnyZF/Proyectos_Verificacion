@@ -1,29 +1,29 @@
 //-------------------------------------------------------------------------
-//						mem_sequence's - www.verificationguide.com
+//						fpu_sequence's - www.verificationguide.com
 //-------------------------------------------------------------------------
 
 //=========================================================================
-// mem_sequence - random stimulus 
+// fpu_sequence - random stimulus 
 //=========================================================================
-class mem_sequence extends uvm_sequence#(mem_seq_item);
+class fpu_sequence extends uvm_sequence#(fpu_seq_item);
   
-  `uvm_object_utils(mem_sequence)
+  `uvm_object_utils(fpu_sequence)
   
   //--------------------------------------- 
   //Constructor
   //---------------------------------------
-  function new(string name = "mem_sequence");
+  function new(string name = "fpu_sequence");
     super.new(name);
   endfunction
   
-  `uvm_declare_p_sequencer(mem_sequencer)
+  `uvm_declare_p_sequencer(fpu_sequencer)
   
   //---------------------------------------
   // create, randomize and send the item to driver
   //---------------------------------------
   virtual task body();
    repeat(2) begin
-    req = mem_seq_item::type_id::create("req");
+    req = fpu_seq_item::type_id::create("req");
     wait_for_grant();
     req.randomize();
     send_request(req);
@@ -36,7 +36,7 @@ endclass
 //=========================================================================
 // write_sequence - "write" type
 //=========================================================================
-class write_sequence extends uvm_sequence#(mem_seq_item);
+class write_sequence extends uvm_sequence#(fpu_seq_item);
   
   `uvm_object_utils(write_sequence)
    
@@ -56,7 +56,7 @@ endclass
 //=========================================================================
 // read_sequence - "read" type
 //=========================================================================
-class read_sequence extends uvm_sequence#(mem_seq_item);
+class read_sequence extends uvm_sequence#(fpu_seq_item);
   
   `uvm_object_utils(read_sequence)
    
@@ -76,7 +76,7 @@ endclass
 //=========================================================================
 // wr_rd_sequence - "write" followed by "read" (sequence's inside sequences)
 //=========================================================================
-class wr_rd_sequence extends uvm_sequence#(mem_seq_item);
+class wr_rd_sequence extends uvm_sequence#(fpu_seq_item);
   
   //--------------------------------------- 
   //Declaring sequences

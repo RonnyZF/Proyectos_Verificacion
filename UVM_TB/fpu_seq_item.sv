@@ -1,8 +1,8 @@
 //-------------------------------------------------------------------------
-//						mem_seq_item - www.verificationguide.com 
+//						fpu_seq_item - www.verificationguide.com 
 //-------------------------------------------------------------------------
 
-class mem_seq_item extends uvm_sequence_item;
+class fpu_seq_item extends uvm_sequence_item;
   //---------------------------------------
   //data and control fields
   //---------------------------------------
@@ -16,7 +16,7 @@ class mem_seq_item extends uvm_sequence_item;
   //---------------------------------------
   //Utility and Field macros
   //---------------------------------------
-  `uvm_object_utils_begin(mem_seq_item)
+  `uvm_object_utils_begin(fpu_seq_item)
     `uvm_field_int(Address,UVM_ALL_ON)
     `uvm_field_int(CS,UVM_ALL_ON) 
     `uvm_field_int(WE,UVM_ALL_ON)
@@ -27,7 +27,7 @@ class mem_seq_item extends uvm_sequence_item;
   //---------------------------------------
   //Constructor
   //---------------------------------------
-  function new(string name = "mem_seq_item");
+  function new(string name = "fpu_seq_item");
     super.new(name);
   endfunction
   

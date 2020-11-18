@@ -1,23 +1,23 @@
 //-------------------------------------------------------------------------
-//						mem_agent - www.verificationguide.com 
+//						fpu_agent - www.verificationguide.com 
 //-------------------------------------------------------------------------
 
-`include "mem_seq_item.sv"
-`include "mem_sequencer.sv"
-`include "mem_sequence.sv"
-`include "mem_driver.sv"
-`include "mem_monitor.sv"
+`include "fpu_seq_item.sv"
+`include "fpu_sequencer.sv"
+`include "fpu_sequence.sv"
+`include "fpu_driver.sv"
+`include "fpu_monitor.sv"
 
-class mem_agent extends uvm_agent;
+class fpu_agent extends uvm_agent;
 
   //---------------------------------------
   // component instances
   //---------------------------------------
-  mem_driver    driver;
-  mem_sequencer sequencer;
-  mem_monitor   monitor;
+  fpu_driver    driver;
+  fpu_sequencer sequencer;
+  fpu_monitor   monitor;
 
-  `uvm_component_utils(mem_agent)
+  `uvm_component_utils(fpu_agent)
   
   //---------------------------------------
   // constructor
@@ -32,12 +32,12 @@ class mem_agent extends uvm_agent;
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     
-    monitor = mem_monitor::type_id::create("monitor", this);
+    monitor = fpu_monitor::type_id::create("monitor", this);
 
     //creating driver and sequencer only for ACTIVE agent
     if(get_is_active() == UVM_ACTIVE) begin
-      driver    = mem_driver::type_id::create("driver", this);
-      sequencer = mem_sequencer::type_id::create("sequencer", this);
+      driver    = fpu_driver::type_id::create("driver", this);
+      sequencer = fpu_sequencer::type_id::create("sequencer", this);
     end
   endfunction : build_phase
   
@@ -50,4 +50,4 @@ class mem_agent extends uvm_agent;
     end
   endfunction : connect_phase
 
-endclass : mem_agent
+endclass : fpu_agent

@@ -1,10 +1,10 @@
 //-------------------------------------------------------------------------
-//						mem_sequencer - www.verificationguide.com
+//						fpu_sequencer - www.verificationguide.com
 //-------------------------------------------------------------------------
 
-class mem_sequencer extends uvm_sequencer#(mem_seq_item);
+class fpu_sequencer extends uvm_sequencer#(fpu_seq_item);
 
-  `uvm_component_utils(mem_sequencer) 
+  `uvm_component_utils(fpu_sequencer) 
 
   //---------------------------------------
   //constructor

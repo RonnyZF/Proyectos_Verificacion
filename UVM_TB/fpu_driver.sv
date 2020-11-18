@@ -1,16 +1,16 @@
 //-------------------------------------------------------------------------
-//						mem_driver - www.verificationguide.com
+//						fpu_driver - www.verificationguide.com
 //-------------------------------------------------------------------------
 
 `define DRIV_IF vif.DRIVER.driver_cb
 
-class mem_driver extends uvm_driver #(mem_seq_item);
+class fpu_driver extends uvm_driver #(fpu_seq_item);
 
   //--------------------------------------- 
   // Virtual Interface
   //--------------------------------------- 
-  virtual mem_if vif;
-  `uvm_component_utils(mem_driver)
+  virtual fpu_if vif;
+  `uvm_component_utils(fpu_driver)
     
   //--------------------------------------- 
   // Constructor
@@ -24,7 +24,7 @@ class mem_driver extends uvm_driver #(mem_seq_item);
   //---------------------------------------
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-     if(!uvm_config_db#(virtual mem_if)::get(this, "", "vif", vif))
+     if(!uvm_config_db#(virtual fpu_if)::get(this, "", "vif", vif))
        `uvm_fatal("NO_VIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
   endfunction: build_phase
 
@@ -67,4 +67,4 @@ class mem_driver extends uvm_driver #(mem_seq_item);
     end
 
   endtask : drive
-endclass : mem_driver
+endclass : fpu_driver

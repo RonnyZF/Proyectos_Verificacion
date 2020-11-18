@@ -1,19 +1,19 @@
 //-------------------------------------------------------------------------
-//						mem_env - www.verificationguide.com
+//						fpu_env - www.verificationguide.com
 //-------------------------------------------------------------------------
 
-`include "mem_agent.sv"
-`include "mem_scoreboard.sv"
+`include "fpu_agent.sv"
+`include "fpu_scoreboard.sv"
 
-class mem_model_env extends uvm_env;
+class fpu_model_env extends uvm_env;
   
   //---------------------------------------
   // agent and scoreboard instance
   //---------------------------------------
-  mem_agent      mem_agnt;
-  mem_scoreboard mem_scb;
+  fpu_agent      fpu_agnt;
+  fpu_scoreboard fpu_scb;
   
-  `uvm_component_utils(mem_model_env)
+  `uvm_component_utils(fpu_model_env)
   
   //--------------------------------------- 
   // constructor
@@ -28,15 +28,15 @@ class mem_model_env extends uvm_env;
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
 
-    mem_agnt = mem_agent::type_id::create("mem_agnt", this);
-    mem_scb  = mem_scoreboard::type_id::create("mem_scb", this);
+    fpu_agnt = fpu_agent::type_id::create("fpu_agnt", this);
+    fpu_scb  = fpu_scoreboard::type_id::create("fpu_scb", this);
   endfunction : build_phase
   
   //---------------------------------------
   // connect_phase - connecting monitor and scoreboard port
   //---------------------------------------
   function void connect_phase(uvm_phase phase);
-    mem_agnt.monitor.item_collected_port.connect(mem_scb.item_collected_export);
+    fpu_agnt.monitor.item_collected_port.connect(fpu_scb.item_collected_export);
   endfunction : connect_phase
 
-endclass : mem_model_env
+endclass : fpu_model_env

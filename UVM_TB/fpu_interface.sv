@@ -1,18 +1,26 @@
 //-------------------------------------------------------------------------
-//						mem_interface - www.verificationguide.com
+//						fpu_interface - www.verificationguide.com
 //-------------------------------------------------------------------------
 
-interface mem_if(input logic clk,reset);
+interface fpu_if(input logic clk,reset);
   
   //---------------------------------------
   //declaring the signals
   //---------------------------------------
-  logic [5:0] 	Address;
-  logic 		CS;
-  logic 		WE;
-  logic 		OE;
-  logic [15:0] 	rdata;
-  logic [15:0] 	wdata;
+
+  logic [1:0] rmode;
+  logic [2:0] fpu_op;
+  logic [31:0] opa;
+  logic [31:0] opb;
+  logic [31:0] out;
+  logic inf;
+  logic snan;
+  logic qnan;
+  logic ine; 
+  logic overflow; 
+  logic underflow; 
+  logic zero; 
+  logic div_by_zero; 
   
   
   //---------------------------------------
@@ -56,7 +64,7 @@ interface mem_if(input logic clk,reset);
   //Functional Coverage Collection
   //---------------------------------------
     
-    covergroup mem_coverage @(posedge WE or posedge OE or posedge CS);
+    covergroup fpu_coverage @(posedge WE or posedge OE or posedge CS);
       Address_cov : coverpoint Address{
       }
       Data_cov : coverpoint wdata{
@@ -82,7 +90,7 @@ interface mem_if(input logic clk,reset);
       cross_Address_Data_cov : cross Data_cov, Address_cov;
     endgroup
     
-    mem_coverage coverage_collection = new();
+    fpu_coverage coverage_collection = new();
   
   
 endinterface

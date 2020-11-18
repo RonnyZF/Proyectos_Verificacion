@@ -1,21 +1,21 @@
 //-------------------------------------------------------------------------
-//						mem_test - www.verificationguide.com 
+//						fpu_test - www.verificationguide.com 
 //-------------------------------------------------------------------------
 
-`include "mem_env.sv"
-class mem_model_base_test extends uvm_test;
+`include "fpu_env.sv"
+class fpu_model_base_test extends uvm_test;
 
-  `uvm_component_utils(mem_model_base_test)
+  `uvm_component_utils(fpu_model_base_test)
   
   //---------------------------------------
   // env instance 
   //--------------------------------------- 
-  mem_model_env env;
+  fpu_model_env env;
 
   //---------------------------------------
   // constructor
   //---------------------------------------
-  function new(string name = "mem_model_base_test",uvm_component parent=null);
+  function new(string name = "fpu_model_base_test",uvm_component parent=null);
     super.new(name,parent);
   endfunction : new
 
@@ -26,7 +26,7 @@ class mem_model_base_test extends uvm_test;
     super.build_phase(phase);
 
     // Create the env
-    env = mem_model_env::type_id::create("env", this);
+    env = fpu_model_env::type_id::create("env", this);
   endfunction : build_phase
   
   //---------------------------------------
@@ -57,4 +57,4 @@ class mem_model_base_test extends uvm_test;
     end
   endfunction 
 
-endclass : mem_model_base_test
+endclass : fpu_model_base_test
