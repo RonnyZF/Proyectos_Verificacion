@@ -1,4 +1,4 @@
-source variable.sh 
+source ../variable.sh 
 
 vcs -f filelist -sverilog -full64 -gui -debug_access+all +warn=all -assert svaext -cm line+tgl+assert
 
