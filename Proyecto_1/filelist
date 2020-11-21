@@ -1,0 +1,16 @@
+DUT/except.v
+DUT/post_norm.v
+DUT/pre_norm.v
+DUT/pre_norm_fmul.v
+DUT/primitives.v
+DUT/fpu.v
+TESTBENCH/interface.sv
+TESTBENCH/stimulus.sv
+TESTBENCH/scoreboard.sv
+TESTBENCH/driver.sv
+TESTBENCH/monitor.sv
+TESTBENCH/coverage.sv
+TESTBENCH/env.sv
+TESTBENCH/test_1.sv
+TESTBENCH/assertions.sv
+TESTBENCH/top.sv
