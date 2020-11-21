@@ -1,13 +1,20 @@
-interface fifo_intf(input clk);
+interface fpu_intf(input clk);
   
-  logic rst;
-  logic wr_cs;
-  logic rd_cs;
-  logic [7:0] data_in;
-  logic rd_en;
-  logic wr_en;
-  logic [7:0] data_out;
-  logic empty;
-  logic full; 
+  //---------------------------------------
+  //declaring the signals
+  //---------------------------------------
+  logic [1:0] rmode;
+  logic [2:0] fpu_op;
+  logic [31:0] opa;
+  logic [31:0] opb;
+  logic [31:0] out;
+  logic inf;
+  logic snan;
+  logic qnan;
+  logic ine; 
+  logic overflow; 
+  logic underflow; 
+  logic zero; 
+  logic div_by_zero; 
 
 endinterface
