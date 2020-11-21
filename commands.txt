@@ -2,6 +2,10 @@ source variable.sh
 
 vcs -f filelist -sverilog -full64 -gui -debug_access+all +warn=all -assert svaext -cm line+tgl+assert
 
+(para UVM):
+
+vcs -R -sverilog -F filelist -debug_access+all -full64 -cm-line-togle-assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic -gui
+
 ./simv -cm line+tgl+assert
 
 /mnt/vol_NFS_Zener/tools/synopsys/apps/vcs-mx2/M-2017.03-SP2-5/bin/urg -full64 -dir simv.vdb/
