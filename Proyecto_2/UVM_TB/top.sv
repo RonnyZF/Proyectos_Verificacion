@@ -15,7 +15,7 @@ module top();
   //---------------------------------------
   //interface instance
   //---------------------------------------
-  intf_cnt intf(clk);
+  fpu_intf intf(clk);
   
   //---------------------------------------
   //DUT instance
@@ -40,10 +40,10 @@ module top();
   initial begin
     //enable wave dump
     $dumpfile("verilog.vcd");
-    $dumpvars(0);
+    $dumpvars;
   end
    
-  uvm_config_db #(virtual fifo_intf)::set (null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
+  uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
   run_test();	
 end
   
