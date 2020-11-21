@@ -1,30 +1,47 @@
 import uvm_pkg::*;
 
 module top();
+  //---------------------------------------
+  //clock signal declaration
+  //---------------------------------------
   reg clk = 0;
-  initial // clock generator
+  
+  //---------------------------------------
+  //clock generation
+  //---------------------------------------
+  initial 
   forever #5 clk = ~clk;
    
-  // Interface
-  fifo_intf intf(clk);
+  //---------------------------------------
+  //interface instance
+  //---------------------------------------
+  intf_cnt intf(clk);
   
-  // DUT connection	
-  sync_fifo dut (
-    .clk   (clk), 
-    .rst   (intf.rst),
-    .wr_cs  (intf.wr_cs),
-    .rd_cs  (intf.rd_cs),
-    .data_in (intf.data_in),
-    .rd_en  (intf.rd_en),
-    .wr_en  (intf.wr_en),
-    .data_out (intf.data_out),
-    .empty  (intf.empty),
-    .full   (intf.full) 
+  //---------------------------------------
+  //DUT instance
+  //---------------------------------------
+  fpu dut (
+    .clk(clk),
+    .rmode(intf.rmode),
+    .fpu_op(intf.fpu_op),
+    .opa(intf.opa),
+    .opb(intf.opb),
+    .out(intf.out),
+    .inf(intf.inf),
+    .snan(intf.snan),
+    .qnan(intf.qnan),
+    .ine(intf.ine),
+    .overflow(intf.overflow),
+    .underflow(intf.underflow),
+    .zero(intf.zero),
+    .div_by_zero(intf.div_by_zero)
   );
 
-initial begin
-  $dumpfile("dump.vcd"); 
-  $dumpvars;
+  initial begin
+    //enable wave dump
+    $dumpfile("verilog.vcd");
+    $dumpvars(0);
+  end
    
   uvm_config_db #(virtual fifo_intf)::set (null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
   run_test();	

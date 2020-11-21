@@ -1,28 +1,28 @@
-class fifo_env extends uvm_env;
+class fpu_env extends uvm_env;
 
-  `uvm_component_utils(fifo_env)
+  `uvm_component_utils(fpu_env)
 
-  function new (string name = "fifo_env", uvm_component parent = null);
+  function new (string name = "fpu_env", uvm_component parent = null);
     super.new (name, parent);
   endfunction
   
-  virtual fifo_intf intf;
-  fifo_agent_active fifo_ag_active;
-  fifo_agent_passive fifo_ag_passive;
-  fifo_scoreboard fifo_sb;
+  virtual fpu_intf intf;
+  fpu_agent_active fpu_ag_active;
+  fpu_agent_passive fpu_ag_passive;
+  fpu_scoreboard fpu_sb;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
     
-    if(uvm_config_db #(virtual fifo_intf)::get(this, "", "VIRTUAL_INTERFACE", intf) == 0) begin
+    if(uvm_config_db #(virtual fpu_intf)::get(this, "", "VIRTUAL_INTERFACE", intf) == 0) begin
       `uvm_fatal("INTERFACE_CONNECT", "Could not get from the database the virtual interface for the TB")
     end
     
-    fifo_ag_active = fifo_agent_active::type_id::create ("fifo_ag_active", this);
-    fifo_ag_passive = fifo_agent_passive::type_id::create ("fifo_ag_passive", this);
-    fifo_sb = fifo_scoreboard::type_id::create ("fifo_sb", this); 
+    fpu_ag_active = fpu_agent_active::type_id::create ("fpu_ag_active", this);
+    fpu_ag_passive = fpu_agent_passive::type_id::create ("fpu_ag_passive", this);
+    fpu_sb = fpu_scoreboard::type_id::create ("fpu_sb", this); 
     
-    //uvm_config_db #(virtual fifo_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);    
+    //uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);    
       
     uvm_report_info(get_full_name(),"End_of_build_phase", UVM_LOW);
     print();
@@ -31,8 +31,8 @@ class fifo_env extends uvm_env;
 
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    fifo_ag_active.fifo_mntr_wr.mon_analysis_port.connect(fifo_sb.fifo_drv);
-    fifo_ag_passive.fifo_mntr_rd.mon_analysis_port.connect(fifo_sb.fifo_mon);
+    fpu_ag_active.fpu_mntr_wr.mon_analysis_port.connect(fpu_sb.fpu_drv);
+    fpu_ag_passive.fpu_mntr_rd.mon_analysis_port.connect(fpu_sb.fpu_mon);
   endfunction
 
 endclass
