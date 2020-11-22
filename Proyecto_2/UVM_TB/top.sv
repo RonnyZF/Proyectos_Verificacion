@@ -43,8 +43,8 @@ module top();
     $dumpvars;
   end
    
-  uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
-  run_test();	
+ uvm_config_db #(virtual fpu_intf)::set(null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
+ run_test();	
 end
   
 endmodule
