@@ -8,7 +8,7 @@ class fpu_env extends uvm_env;
   
   virtual fpu_intf intf;
   fpu_agent_active fpu_ag_active;
-  //fpu_agent_passive fpu_ag_passive;
+  fpu_agent_passive fpu_ag_passive;
   fpu_scoreboard fpu_sb;
 
   virtual function void build_phase(uvm_phase phase);
@@ -19,7 +19,7 @@ class fpu_env extends uvm_env;
     end
     
     fpu_ag_active = fpu_agent_active::type_id::create ("fpu_ag_active", this);
-    //fpu_ag_passive = fpu_agent_passive::type_id::create ("fpu_ag_passive", this);
+    fpu_ag_passive = fpu_agent_passive::type_id::create ("fpu_ag_passive", this);
     fpu_sb = fpu_scoreboard::type_id::create ("fpu_sb", this); 
     
     //uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);    
@@ -32,7 +32,7 @@ class fpu_env extends uvm_env;
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
     fpu_ag_active.fpu_mntr_op.mon_analysis_port.connect(fpu_sb.fpu_drv);
-    //fpu_ag_passive.fpu_mntr_rd.mon_analysis_port.connect(fpu_sb.fpu_mon);
+    fpu_ag_passive.fpu_mntr_read.mon_analysis_port.connect(fpu_sb.fpu_mon);
   endfunction
 
 endclass
