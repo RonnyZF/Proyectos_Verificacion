@@ -179,28 +179,28 @@ class fpu_scoreboard extends uvm_scoreboard;
       end
 
       if (flag_out && flag_zero && flag_snan && flag_qnan && flag_inf && flag_overflow && flag_underflow && flag_div_by_zero) begin
-        `uvm_error("SB PASS", "All data was correct!!");
+        $display("SB PASS - All data was correct!!");
         // Reset de las banderas
-        logic flag_out          = 0;
-        logic flag_zero         = 0;    
-        logic flag_snan         = 0;
-        logic flag_qnan         = 0;
-        logic flag_inf          = 0;
-        logic flag_overflow     = 0;
-        logic flag_underflow    = 0;
-        logic flag_div_by_zero  = 0;
+        flag_out          = 0;
+        flag_zero         = 0;    
+        flag_snan         = 0;
+        flag_qnan         = 0;
+        flag_inf          = 0;
+        flag_overflow     = 0;
+        flag_underflow    = 0;
+        flag_div_by_zero  = 0;
       end
       else begin
-        `uvm_info("SB ERROR", "One or more data did not match");
+        $display("SB ERROR - One or more data did not match");
         // Reset de las banderas
-        logic flag_out          = 0;
-        logic flag_zero         = 0;
-        logic flag_snan         = 0;
-        logic flag_qnan         = 0;
-        logic flag_inf          = 0;
-        logic flag_overflow     = 0;
-        logic flag_underflow    = 0;
-        logic flag_div_by_zero  = 0;
+        flag_out          = 0;
+        flag_zero         = 0;
+        flag_snan         = 0;
+        flag_qnan         = 0;
+        flag_inf          = 0;
+        flag_overflow     = 0;
+        flag_underflow    = 0;
+        flag_div_by_zero  = 0;
       end
 
     endfunction
