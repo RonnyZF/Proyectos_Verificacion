@@ -10,6 +10,7 @@ class fpu_env extends uvm_env;
   fpu_agent_active fpu_ag_active;
   fpu_agent_passive fpu_ag_passive;
   fpu_scoreboard fpu_sb;
+  //funct_coverage coverage;
 
   virtual function void build_phase(uvm_phase phase);
     super.build_phase(phase);
@@ -21,6 +22,7 @@ class fpu_env extends uvm_env;
     fpu_ag_active = fpu_agent_active::type_id::create ("fpu_ag_active", this);
     fpu_ag_passive = fpu_agent_passive::type_id::create ("fpu_ag_passive", this);
     fpu_sb = fpu_scoreboard::type_id::create ("fpu_sb", this); 
+    //coverage = new(intf);
     
     //uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);    
       

@@ -61,7 +61,7 @@ class gen_item_seq extends uvm_sequence;
 
   rand int num; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {10}; }
+  constraint c1 { num inside {100}; }
 
   virtual task body();
     fpu_item f_item = fpu_item::type_id::create("f_item");
