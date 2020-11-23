@@ -1,14 +1,14 @@
 class fpu_item extends uvm_sequence_item;
 
   rand logic[31:0] opa, opb;
-  rand logic[31:0] out;
-  rand logic zero;
-  rand logic snan;
-  rand logic qnan;
-  rand logic inf;
-  rand logic overflow;
-  rand logic underflow;
-  rand logic div_by_zero;
+  logic[31:0] out;
+  logic zero;
+  logic snan;
+  logic qnan;
+  logic inf;
+  logic overflow;
+  logic underflow;
+  logic div_by_zero;
 
   rand logic sign1;
   rand logic sign2;
@@ -39,6 +39,13 @@ class fpu_item extends uvm_sequence_item;
   `uvm_field_int (out, UVM_DEFAULT)
   `uvm_field_int (fpu_op, UVM_DEFAULT)
   `uvm_field_int (rmode, UVM_DEFAULT)
+  `uvm_field_int (zero, UVM_DEFAULT)
+  `uvm_field_int (snan, UVM_DEFAULT)
+  `uvm_field_int (qnan, UVM_DEFAULT)
+  `uvm_field_int (inf, UVM_DEFAULT)
+  `uvm_field_int (overflow, UVM_DEFAULT)
+  `uvm_field_int (underflow, UVM_DEFAULT)
+  `uvm_field_int (div_by_zero, UVM_DEFAULT)
   `uvm_object_utils_end
 
   function new(string name = "fpu_item");
