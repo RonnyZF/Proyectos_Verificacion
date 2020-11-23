@@ -31,8 +31,8 @@ class fpu_env extends uvm_env;
 
   virtual function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    fpu_ag_active.fpu_mntr_wr.mon_analysis_port.connect(fpu_sb.fpu_drv);
-    fpu_ag_passive.fpu_mntr_rd.mon_analysis_port.connect(fpu_sb.fpu_mon);
+    fpu_ag_active.fpu_mntr_op.mon_analysis_port.connect(fpu_sb.fpu_drv);
+    fpu_ag_passive.fpu_mntr_read.mon_analysis_port.connect(fpu_sb.fpu_mon);
   endfunction
 
 endclass

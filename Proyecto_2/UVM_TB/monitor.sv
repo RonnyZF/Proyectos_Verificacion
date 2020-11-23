@@ -32,8 +32,8 @@ class fpu_monitor extends uvm_monitor;
    endfunction
 endclass
 
-class fpu_monitor_wr extends fpu_monitor;
-  `uvm_component_utils (fpu_monitor_wr)
+class fpu_monitor_op extends fpu_monitor;
+  `uvm_component_utils (fpu_monitor_op)
 
    function new (string name, uvm_component parent= null);
       super.new (name, parent);
@@ -47,17 +47,21 @@ class fpu_monitor_wr extends fpu_monitor;
       fpu_item  data_obj = fpu_item::type_id::create ("data_obj", this);
       forever begin
         @ (negedge intf.clk);  
-        if( intf.wr_en == 1) begin
-          data_obj.data = intf.data_in;
+        @ (negedge intf.clk);  
+        if( $isunknown(intf.opa)==0) begin
+          data_obj.opa     = intf.opa;
+          data_obj.opb     = intf.opb;
+          data_obj.rmode   = intf.rmode;
+          data_obj.fpu_op  = intf.fpu_op;
+          //data_obj.out     = intf.out;
           mon_analysis_port.write (data_obj);
         end
       end
    endtask
-
 endclass
 
-class fpu_monitor_rd extends fpu_monitor;
-  `uvm_component_utils (fpu_monitor_rd)
+class fpu_monitor_read extends fpu_monitor;
+  `uvm_component_utils (fpu_monitor_read)
 
    function new (string name, uvm_component parent= null);
       super.new (name, parent);
@@ -71,11 +75,15 @@ class fpu_monitor_rd extends fpu_monitor;
       fpu_item  data_obj = fpu_item::type_id::create ("data_obj", this);
       forever begin
         @ (negedge intf.clk);  
-        if( intf.rd_en == 1) begin
-          data_obj.data = intf.data_out;
+        @ (negedge intf.clk);  
+        $display("ENTRO EL PASIVO");
+        $display("INTEFACE OUTPUT 0x%h",intf.out);
+        if( $isunknown(intf.out)==0) begin
+          $display("OUTPUT ES DEFINIDO");
+          data_obj.out     = intf.out;
           mon_analysis_port.write (data_obj);
         end
       end
    endtask
-
 endclass
+

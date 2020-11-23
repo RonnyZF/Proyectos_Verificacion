@@ -9,7 +9,7 @@ class fpu_agent_active extends uvm_agent;
   virtual fpu_intf intf;
   fpu_driver fpu_drv;
   uvm_sequencer #(fpu_item)	fpu_seqr;
-  fpu_monitor_wr fpu_mntr_wr;
+  fpu_monitor_op fpu_mntr_op;
 
   //Creacion de los 3 objetos activos
   virtual function void build_phase(uvm_phase phase);
@@ -24,7 +24,7 @@ class fpu_agent_active extends uvm_agent;
     
   fpu_seqr = uvm_sequencer#(fpu_item)::type_id::create("fpu_seqr", this);
     
-  fpu_mntr_wr = fpu_monitor_wr::type_id::create ("fpu_mntr_wr", this);
+  fpu_mntr_op = fpu_monitor_op::type_id::create ("fpu_mntr_op", this);
     
   endfunction
 
@@ -37,6 +37,7 @@ endclass
 //-------------------FIN de Agente Activo--------------------------//
 //-----------------------------------------------------------------//
 //----------------Inicio de Agente Pasivo--------------------------//
+
 class fpu_agent_passive extends uvm_agent;
   `uvm_component_utils(fpu_agent_passive)
   function new(string name="fpu_agent_passive", uvm_component parent=null);
@@ -45,7 +46,7 @@ class fpu_agent_passive extends uvm_agent;
   
   //instancias
   virtual fpu_intf intf;
-  fpu_monitor_rd fpu_mntr_rd;
+  fpu_monitor_read fpu_mntr_read;
 
   //Creacion del objeto pasivo
   virtual function void build_phase(uvm_phase phase);
@@ -55,7 +56,7 @@ class fpu_agent_passive extends uvm_agent;
     begin
       `uvm_fatal("INTERFACE_CONNECT", "Could not get from the database the virtual interface for the TB")
     end
-  fpu_mntr_rd = fpu_monitor_rd::type_id::create ("fpu_mntr_rd", this);
+  fpu_mntr_read = fpu_monitor_read::type_id::create ("fpu_mntr_read", this);
   endfunction
 
   //No hay conexion
