@@ -107,79 +107,81 @@ class fpu_scoreboard extends uvm_scoreboard;
       //$display("OUT MODELO DE REFERENCIA 0x%0h \n", temporal);
       //$display("PRINT SI PASO \n");
       if (dut_out != temp_out) begin
-        `uvm_error("SB(Out) error", "Data mismatch");
+        `uvm_error("SB(Out) error", "Out signal mismatch");
         flag_out = 0;
       end
       else begin
-        `uvm_info("SB(Out) PASS", $sformatf("Data received = 0x%0h", item.out), UVM_MEDIUM);//CAMBIAR
+        `uvm_info("SB(Out) PASS", $sformatf("Out signal received = 0x%0h", item.out), UVM_MEDIUM);//CAMBIAR
         flag_out = 1;
       end
 
       if (dut_zero != temp_zero) begin
-        `uvm_error("SB(Zero) error", "Data mismatch");
+        `uvm_error("SB(Zero) error", "Zero signal mismatch");
         flag_zero = 0;
       end
       else begin
-        `uvm_info("SB(Zero) PASS", $sformatf("Data received = 0x%0h", item.zero), UVM_MEDIUM);
+        `uvm_info("SB(Zero) PASS", $sformatf("Zero signal received = 0x%0h", item.zero), UVM_MEDIUM);
         flag_zero = 1;
       end
 
       if (dut_snan != temp_snan) begin
-        `uvm_error("SB(SNaN) error", "Data mismatch");
+        `uvm_error("SB(SNaN) error", "SNaN signal mismatch");
         flag_snan = 0;
       end
       else begin
-        `uvm_info("SB(SNaN) PASS", $sformatf("Data received = 0x%0h", item.snan), UVM_MEDIUM);
+        `uvm_info("SB(SNaN) PASS", $sformatf("SNaN signal received = 0x%0h", item.snan), UVM_MEDIUM);
         flag_snan = 1;
       end
 
       if (dut_qnan != temp_qnan) begin
-        `uvm_error("SB(QNaN) error", "Data mismatch");
+        `uvm_error("SB(QNaN) error", "QNaN signal mismatch");
         flag_qnan = 0;
       end
       else begin
-        `uvm_info("SB(QNaN) PASS", $sformatf("Data received = 0x%0h", item.qnan), UVM_MEDIUM);
+        `uvm_info("SB(QNaN) PASS", $sformatf("QNaN signal received = 0x%0h", item.qnan), UVM_MEDIUM);
         flag_qnan = 1;
       end
 
       if (dut_inf != temp_inf) begin
-        `uvm_error("SB(Inf) error", "Data mismatch");
+        `uvm_error("SB(Inf) error", "Inf signal mismatch");
         flag_inf = 0;
       end
       else begin
-        `uvm_info("SB(Inf) PASS", $sformatf("Data received = 0x%0h", item.inf), UVM_MEDIUM);
+        `uvm_info("SB(Inf) PASS", $sformatf("Inf signal received = 0x%0h", item.inf), UVM_MEDIUM);
         flag_inf = 1;
       end
 
       if (dut_overflow != temp_overflow) begin
-        `uvm_error("SB(Overflow) error", "Data mismatch");
+        `uvm_error("SB(Overflow) error", "Overflow signal mismatch");
         flag_overflow = 0;
       end
       else begin
-        `uvm_info("SB(Overflow) PASS", $sformatf("Data received = 0x%0h", item.overflow), UVM_MEDIUM);
+        `uvm_info("SB(Overflow) PASS", $sformatf("Overflow signal received = 0x%0h", item.overflow), UVM_MEDIUM);
         flag_overflow = 1;
       end
 
       if (dut_underflow != temp_underflow) begin
-        `uvm_error("SB(Undeflow) error", "Data mismatch");
+        `uvm_error("SB(Undeflow) error", "Undeflow signal mismatch");
         flag_underflow = 0;
       end
       else begin
-        `uvm_info("SB(Underflow) PASS", $sformatf("Data received = 0x%0h", item.underflow), UVM_MEDIUM);
+        `uvm_info("SB(Underflow) PASS", $sformatf("Underflow signal received = 0x%0h", item.underflow), UVM_MEDIUM);
         flag_underflow = 1;
       end
 
       if (dut_div_by_zero != temp_div_by_zero) begin
-        `uvm_error("SB(Div by Zero) error", "Data mismatch");
+        `uvm_error("SB(Div by Zero) error", "Div by Zero signal mismatch");
         flag_div_by_zero = 0;
       end
       else begin
-        `uvm_info("SB(Div by Zero) PASS", $sformatf("Data received = 0x%0h", item.div_by_zero), UVM_MEDIUM);
+        `uvm_info("SB(Div by Zero) PASS", $sformatf("Div by Zero signal received = 0x%0h", item.div_by_zero), UVM_MEDIUM);
         flag_div_by_zero = 1;
       end
 
       if (flag_out && flag_zero && flag_snan && flag_qnan && flag_inf && flag_overflow && flag_underflow && flag_div_by_zero) begin
-        $display("SB PASS - All data was correct!!");
+        $display("************************************");
+        $display("* SB PASS - All data was correct!! *");
+        $display("************************************");
         // Reset de las banderas
         flag_out          = 0;
         flag_zero         = 0;    
@@ -191,7 +193,9 @@ class fpu_scoreboard extends uvm_scoreboard;
         flag_div_by_zero  = 0;
       end
       else begin
-        $display("SB ERROR - One or more data did not match");
+        $display("*********************************************");
+        $display("* SB ERROR - One or more data did not match *");
+        $display("*********************************************");
         // Reset de las banderas
         flag_out          = 0;
         flag_zero         = 0;
