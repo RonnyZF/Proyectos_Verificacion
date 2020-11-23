@@ -6,19 +6,19 @@ class test_basic extends uvm_test;
     super.new (name, parent);
   endfunction : new
   
-  virtual fifo_intf intf;
-  fifo_env env;  
+  virtual fpu_intf intf;
+  fpu_env env;  
   
   virtual function void build_phase(uvm_phase phase);
       super.build_phase(phase);
       
-    if(uvm_config_db #(virtual fifo_intf)::get(this, "", "VIRTUAL_INTERFACE", intf) == 0) begin
+    if(uvm_config_db #(virtual fpu_intf)::get(this, "", "VIRTUAL_INTERFACE", intf) == 0) begin
         `uvm_fatal("INTERFACE_CONNECT", "Could not get from the database the virtual interface for the TB")
       end
       
-    env  = fifo_env::type_id::create ("env", this);
+    env  = fpu_env::type_id::create ("env", this);
 
-    uvm_config_db #(virtual fifo_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);
+    uvm_config_db #(virtual fpu_intf)::set (null, "uvm_test_top.*", "VIRTUAL_INTERFACE", intf);
       
   endfunction
   
@@ -36,14 +36,14 @@ class test_basic extends uvm_test;
 
     uvm_report_info(get_full_name(),"Init Start", UVM_LOW);
     
-    env.fifo_ag_active.fifo_drv.fifo_reset();
+    env.fpu_ag_active.fpu_drv.fpu_reset();
 
     uvm_report_info(get_full_name(),"Init Done", UVM_LOW);
     
     seq = gen_item_seq::type_id::create("seq");
     
     seq.randomize();
-    seq.start(env.fifo_ag_active.fifo_seqr);
+    seq.start(env.fpu_ag_active.fpu_seqr);
     
     phase.drop_objection (this);
   endtask

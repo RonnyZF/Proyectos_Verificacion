@@ -25,7 +25,7 @@ module top();
     .rmode(intf.rmode),
     .fpu_op(intf.fpu_op),
     .opa(intf.opa),
-    .opb(intf.opb),
+    .opb(intf.opb), 
     .out(intf.out),
     .inf(intf.inf),
     .snan(intf.snan),
@@ -41,9 +41,10 @@ module top();
     //enable wave dump
     $dumpfile("verilog.vcd");
     $dumpvars;
+
    
-    uvm_config_db #(virtual fpu_intf)::set(null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
-    run_test();	
- end
+ uvm_config_db #(virtual fpu_intf)::set(null, "uvm_test_top", "VIRTUAL_INTERFACE", intf);
+ run_test();	
+end
   
 endmodule
