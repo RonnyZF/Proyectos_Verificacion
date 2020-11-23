@@ -10,15 +10,47 @@ class fpu_scoreboard extends uvm_scoreboard;
 
     uvm_analysis_imp_drv #(fpu_item, fpu_scoreboard) fpu_drv;
     uvm_analysis_imp_mon #(fpu_item, fpu_scoreboard) fpu_mon;
-
-    logic [7:0] ref_model [$];  
-    logic [31:0] ref_opa [$];
-  	logic [31:0] ref_opb [$];
-  	logic[2:0] ref_fpu_op [$]; 
-  	logic[1:0] ref_rmode [$];  
-  	logic[31:0] ref_out [$];
-    logic[31:0] temporal;
-    logic[31:0] out_dut;
+    // Variables para almacenar las salidas del DUT
+    logic [31:0] dut_out;
+    logic dut_zero;  
+    logic dut_snan;
+    logic dut_qnan;
+    logic dut_inf;
+    logic dut_overflow;
+    logic dut_underflow;
+    logic dut_div_by_zero;
+    // Fifos para almacenar los valores del modelo de referencia
+    logic [7:0]   ref_model [$];  
+    logic [31:0]  ref_opa [$];
+  	logic [31:0]  ref_opb [$];
+  	logic [2:0]   ref_fpu_op [$]; 
+  	logic [1:0]   ref_rmode [$];  
+  	logic [31:0]  ref_out [$];
+    logic ref_zero [$];
+    logic ref_snan [$];
+    logic ref_qnan [$];
+    logic ref_inf [$];
+    logic ref_overflow [$];
+    logic ref_underflow [$];
+    logic ref_div_by_zero [$];
+    // Variables para almacenar datos temporales del modelo de referencia
+    logic [31:0] temp_out;
+    logic temp_zero;  
+    logic temp_snan;
+    logic temp_qnan;
+    logic temp_inf;
+    logic temp_overflow;
+    logic temp_underflow;
+    logic temp_div_by_zero;
+    // Banderas para realizar el checkeo del modelo
+    logic flag_out;
+    logic flag_zero;    
+    logic flag_snan;
+    logic flag_qnan;
+    logic flag_inf;
+    logic flag_overflow;
+    logic flag_underflow;
+    logic flag_div_by_zero;
   
 	function void build_phase (uvm_phase phase);
       fpu_drv = new ("fpu_drv", this);
@@ -30,6 +62,13 @@ class fpu_scoreboard extends uvm_scoreboard;
       rem = new(ref_opa.pop_back(), ref_opb.pop_back(), ref_fpu_op.pop_back(), ref_rmode.pop_back());
       rem.reference_model();
       ref_out.push_back(rem.out);
+      ref_zero.push_back(rem.zero);
+      ref_snan.push_back(rem.snan);
+      ref_qnan.push_back(rem.qnan);
+      ref_inf.push_back(rem.inf);
+      ref_overflow.push_back(rem.overflow);
+      ref_underflow.push_back(rem.underflow);
+      ref_div_by_zero.push_back(rem.div_by_zero);
       //this.ref_out = rem.out;
     endtask
 
@@ -47,18 +86,123 @@ class fpu_scoreboard extends uvm_scoreboard;
     virtual function void write_mon (fpu_item item);
       $display("TASK write_mon\n");
       `uvm_info ("mon", $sformatf("out received = 0x%0h", item.out), UVM_MEDIUM)//CAMBIAR
-      out_dut = item.out;
-      temporal = ref_out.pop_front();
+      dut_out = item.out;
+      dut_zero = item.zero;  
+      dut_snan = item.snan;
+      dut_qnan = item.qnan;
+      dut_inf = item.inf;
+      dut_overflow = item.overflow;
+      dut_underflow = item.underflow;
+      dut_div_by_zero = item.div_by_zero;
+      temp_out = ref_out.pop_front();
+      temp_zero = ref_zero.pop_front();
+      temp_snan = ref_snan.pop_front();
+      temp_qnan = ref_qnan.pop_front();
+      temp_inf = ref_inf.pop_front();
+      temp_overflow = ref_overflow.pop_front();
+      temp_underflow = ref_underflow.pop_front();
+      temp_div_by_zero = ref_div_by_zero.pop_front();
       //temporal = ref_out;
 
-      $display("OUT MODELO DE REFERENCIA 0x%0h \n", temporal);
-      if (out_dut != temporal) begin
-        `uvm_error("SB error", "Data mismatch");
+      //$display("OUT MODELO DE REFERENCIA 0x%0h \n", temporal);
+      //$display("PRINT SI PASO \n");
+      if (dut_out != temp_out) begin
+        `uvm_error("SB(Out) error", "Data mismatch");
+        flag_out = 0;
       end
       else begin
-        `uvm_info("SB PASS", $sformatf("Data received = 0x%0h", item.out), UVM_MEDIUM);//CAMBIAR
-        $display("PRINT SI PASO \n");
+        `uvm_info("SB(Out) PASS", $sformatf("Data received = 0x%0h", item.out), UVM_MEDIUM);//CAMBIAR
+        flag_out = 1;
       end
+
+      if (dut_zero != temp_zero) begin
+        `uvm_error("SB(Zero) error", "Data mismatch");
+        flag_zero = 0;
+      end
+      else begin
+        `uvm_info("SB(Zero) PASS", $sformatf("Data received = 0x%0h", item.zero), UVM_MEDIUM);
+        flag_zero = 1;
+      end
+
+      if (dut_snan != temp_snan) begin
+        `uvm_error("SB(SNaN) error", "Data mismatch");
+        flag_snan = 0;
+      end
+      else begin
+        `uvm_info("SB(SNaN) PASS", $sformatf("Data received = 0x%0h", item.snan), UVM_MEDIUM);
+        flag_snan = 1;
+      end
+
+      if (dut_qnan != temp_qnan) begin
+        `uvm_error("SB(QNaN) error", "Data mismatch");
+        flag_qnan = 0;
+      end
+      else begin
+        `uvm_info("SB(QNaN) PASS", $sformatf("Data received = 0x%0h", item.qnan), UVM_MEDIUM);
+        flag_qnan = 1;
+      end
+
+      if (dut_inf != temp_inf) begin
+        `uvm_error("SB(Inf) error", "Data mismatch");
+        flag_inf = 0;
+      end
+      else begin
+        `uvm_info("SB(Inf) PASS", $sformatf("Data received = 0x%0h", item.inf), UVM_MEDIUM);
+        flag_inf = 1;
+      end
+
+      if (dut_overflow != temp_overflow) begin
+        `uvm_error("SB(Overflow) error", "Data mismatch");
+        flag_overflow = 0;
+      end
+      else begin
+        `uvm_info("SB(Overflow) PASS", $sformatf("Data received = 0x%0h", item.overflow), UVM_MEDIUM);
+        flag_overflow = 1;
+      end
+
+      if (dut_underflow != temp_underflow) begin
+        `uvm_error("SB(Undeflow) error", "Data mismatch");
+        flag_underflow = 0;
+      end
+      else begin
+        `uvm_info("SB(Underflow) PASS", $sformatf("Data received = 0x%0h", item.underflow), UVM_MEDIUM);
+        flag_underflow = 1;
+      end
+
+      if (dut_div_by_zero != temp_div_by_zero) begin
+        `uvm_error("SB(Div by Zero) error", "Data mismatch");
+        flag_div_by_zero = 0;
+      end
+      else begin
+        `uvm_info("SB(Div by Zero) PASS", $sformatf("Data received = 0x%0h", item.div_by_zero), UVM_MEDIUM);
+        flag_div_by_zero = 1;
+      end
+
+      if (flag_out && flag_zero && flag_snan && flag_qnan && flag_inf && flag_overflow && flag_underflow && flag_div_by_zero) begin
+        `uvm_error("SB PASS", "All data was correct!!");
+        // Reset de las banderas
+        logic flag_out          = 0;
+        logic flag_zero         = 0;    
+        logic flag_snan         = 0;
+        logic flag_qnan         = 0;
+        logic flag_inf          = 0;
+        logic flag_overflow     = 0;
+        logic flag_underflow    = 0;
+        logic flag_div_by_zero  = 0;
+      end
+      else begin
+        `uvm_info("SB ERROR", "One or more data did not match");
+        // Reset de las banderas
+        logic flag_out          = 0;
+        logic flag_zero         = 0;
+        logic flag_snan         = 0;
+        logic flag_qnan         = 0;
+        logic flag_inf          = 0;
+        logic flag_overflow     = 0;
+        logic flag_underflow    = 0;
+        logic flag_div_by_zero  = 0;
+      end
+
     endfunction
     //POSICION CORRECTA????
 	virtual task run_phase (uvm_phase phase);

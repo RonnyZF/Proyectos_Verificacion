@@ -80,7 +80,14 @@ class fpu_monitor_read extends fpu_monitor;
         $display("INTEFACE OUTPUT 0x%h",intf.out);
         if( $isunknown(intf.out)==0) begin
           $display("OUTPUT ES DEFINIDO");
-          data_obj.out     = intf.out;
+          data_obj.out           = intf.out;
+          data_obj.zero;         = intf.zero;
+          data_obj.snan;         = intf.snan;
+          data_obj.qnan;         = intf.qnan;
+          data_obj.inf;          = intf.inf;
+          data_obj.overflow;     = intf.overflow;
+          data_obj.underflow;    = intf.underflow;
+          data_obj.div_by_zero;  = intf.div_by_zero;
           mon_analysis_port.write (data_obj);
         end
       end
