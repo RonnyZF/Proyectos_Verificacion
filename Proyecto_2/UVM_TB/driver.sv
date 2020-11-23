@@ -1,14 +1,16 @@
 class fpu_item extends uvm_sequence_item;
 
-  rand logic[31:0] opa, opb;
+  rand logic[31:0] opa, opb, out;
   rand logic[2:0] fpu_op;
   rand logic[1:0] rmode;
+  logic[31:0] out;
 
   // Use utility macros to implement standard functions
   // like print, copy, clone, etc
   `uvm_object_utils_begin(fpu_item)
   `uvm_field_int (opa, UVM_DEFAULT)
   `uvm_field_int (opb, UVM_DEFAULT)
+  `uvm_field_int (out, UVM_DEFAULT)
   `uvm_field_int (fpu_op, UVM_DEFAULT)
   `uvm_field_int (rmode, UVM_DEFAULT)
   `uvm_object_utils_end
@@ -26,7 +28,7 @@ class gen_item_seq extends uvm_sequence;
 
   rand int num; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {[2:5]}; }
+  constraint c1 { num inside {10}; }
 
   virtual task body();
     fpu_item f_item = fpu_item::type_id::create("f_item");
@@ -71,8 +73,8 @@ class fpu_driver extends uvm_driver #(fpu_item);
       seq_item_port.get_next_item(f_item);
       fork
         operation(f_item);
-        overflow(f_item);
-        div_zero(f_item);
+        //overflow(f_item);
+        //div_zero(f_item);
       join
       seq_item_port.item_done();
     end

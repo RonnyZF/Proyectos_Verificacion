@@ -36,7 +36,7 @@ class test_basic extends uvm_test;
 
     uvm_report_info(get_full_name(),"Init Start", UVM_LOW);
     
-    env.fpu_ag_active.fpu_drv.fpu_reset();
+    //env.fpu_ag_active.fpu_drv.operation();
 
     uvm_report_info(get_full_name(),"Init Done", UVM_LOW);
     

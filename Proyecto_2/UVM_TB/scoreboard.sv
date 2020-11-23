@@ -24,24 +24,24 @@ class fpu_scoreboard extends uvm_scoreboard;
 	endfunction
 
     virtual function void write_drv (fpu_item item);
-      `uvm_info ("drv", $sformatf("Data received = 0x%0h", item.data), UVM_MEDIUM)//CAMBIAR
-      ref_model.push_back(item.data);
+      `uvm_info ("drv", $sformatf("opa received = 0x%0h", item.opa), UVM_MEDIUM)//CAMBIAR
+      ref_model.push_back(item.opa);
 	endfunction
   
     virtual function void write_mon (fpu_item item);
-      `uvm_info ("mon", $sformatf("Data received = 0x%0h", item.data), UVM_MEDIUM)//CAMBIAR
-      if (item.data != ref_model.pop_front()) begin
+      `uvm_info ("mon", $sformatf("opa received = 0x%0h", item.opa), UVM_MEDIUM)//CAMBIAR
+      if (item.opa != ref_model.pop_front()) begin
         `uvm_error("SB error", "Data mismatch");
       end
       else begin
-        `uvm_info("SB PASS", $sformatf("Data received = 0x%0h", item.data), UVM_MEDIUM);//CAMBIAR
+        `uvm_info("SB PASS", $sformatf("Data received = 0x%0h", item.opa), UVM_MEDIUM);//CAMBIAR
       end
     endfunction
     //POSICION CORRECTA????
 	virtual task run_phase (uvm_phase phase);
-		rem = new(opa.pop_back(), opb.pop_back(), fpu_op.pop_back(), rmode.pop_back());
-	    rem.reference_model();
-	    this.out = rem.out;
+		//rem = new(opa.pop_back(), opb.pop_back(), fpu_op.pop_back(), rmode.pop_back());
+	  //  rem.reference_model();
+	  //  this.out = rem.out;
 	endtask
 
 	virtual function void check_phase (uvm_phase phase);
