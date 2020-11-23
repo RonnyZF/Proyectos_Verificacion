@@ -7,7 +7,10 @@ class fpu_item extends uvm_sequence_item;
   // Use utility macros to implement standard functions
   // like print, copy, clone, etc
   `uvm_object_utils_begin(fpu_item)
-    `uvm_field_int (data, UVM_DEFAULT)
+  `uvm_field_int (opa, UVM_DEFAULT)
+  `uvm_field_int (opb, UVM_DEFAULT)
+  `uvm_field_int (fpu_op, UVM_DEFAULT)
+  `uvm_field_int (rmode, UVM_DEFAULT)
   `uvm_object_utils_end
 
   function new(string name = "fpu_item");
