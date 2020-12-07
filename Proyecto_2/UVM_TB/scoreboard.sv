@@ -179,9 +179,9 @@ class fpu_scoreboard extends uvm_scoreboard;
       end
 
       if (flag_out && flag_zero && flag_snan && flag_qnan && flag_inf && flag_overflow && flag_underflow && flag_div_by_zero) begin
-      	`uvm_info("************************************", UVM_MEDIUM);
-      	`uvm_info("* SB PASS - All data was correct!! *", UVM_MEDIUM);
-      	`uvm_info("************************************", UVM_MEDIUM);
+      	`uvm_info(get_type_name(),"************************************",UVM_LOW)
+      	`uvm_info(get_type_name(),"* SB PASS - All data was correct!! *",UVM_LOW)
+      	`uvm_info(get_type_name(),"************************************",UVM_LOW)
         // Reset de las banderas
         flag_out          = 0;
         flag_zero         = 0;    
@@ -193,9 +193,9 @@ class fpu_scoreboard extends uvm_scoreboard;
         flag_div_by_zero  = 0;
       end
       else begin
-      	`uvm_info("*********************************************", UVM_MEDIUM);
-      	`uvm_error("* SB ERROR - One or more data did not match *", UVM_MEDIUM);
-      	`uvm_info("*********************************************", UVM_MEDIUM);
+      	`uvm_info(get_type_name(),"*********************************************",UVM_LOW);
+      	`uvm_error("* SB ERROR ","- One or more data did not match *");
+      	`uvm_info(get_type_name(),"*********************************************",UVM_LOW);
         flag_out          = 0;
         flag_zero         = 0;
         flag_snan         = 0;
@@ -261,7 +261,7 @@ class ref_model;
     logic [31:0] ieee_temp = $shortrealtobits(temp_out);
     a = $bitstoshortreal(this.opa);
     b = $bitstoshortreal(this.opb);
-    $display("FPU_OP = %d and RMODE = %d \n", this.op, this.round);
+    //$display("FPU_OP = %d and RMODE = %d \n", this.op, this.round);
 
     // Compute the desire operation
     if((b == 0) & (this.op == 3'b011)) begin // Division By Zero

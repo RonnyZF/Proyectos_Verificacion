@@ -61,10 +61,11 @@ class gen_item_seq extends uvm_sequence;
 
   rand int num; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {1000000}; }
+  constraint c1 { num inside {10}; }
 
   virtual task body();
     fpu_item f_item = fpu_item::type_id::create("f_item");
+    
     for (int i = 0; i < num; i ++) begin
       //start_item(f_item);
     	//f_item.randomize();
@@ -115,7 +116,7 @@ class fpu_driver extends uvm_driver #(fpu_item);
 
   task operation(fpu_item f_item);
     begin
-      $display("TASK OPERATION\n");
+      //$display("TASK OPERATION\n");
       @ (negedge intf.clk);
       intf.opa = f_item.opa;
       intf.opb = f_item.opb;

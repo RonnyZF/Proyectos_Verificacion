@@ -76,10 +76,10 @@ class fpu_monitor_read extends fpu_monitor;
       forever begin
         @ (negedge intf.clk);  
         @ (negedge intf.clk);  
-        $display("ENTRO EL PASIVO");
-        $display("INTEFACE OUTPUT 0x%h",intf.out);
+        //$display("ENTRO EL PASIVO");
+        //$display("INTEFACE OUTPUT 0x%h",intf.out);
         if( $isunknown(intf.out)==0) begin
-          $display("OUTPUT ES DEFINIDO");
+          //$display("OUTPUT ES DEFINIDO");
           data_obj.out           = intf.out;
           data_obj.zero          = intf.zero;
           data_obj.snan          = intf.snan;
