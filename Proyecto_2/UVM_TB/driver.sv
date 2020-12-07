@@ -26,7 +26,7 @@ class fpu_item extends uvm_sequence_item;
   constraint const_mantissa1 {mantissa1 inside {[0:8388607]}; }
   constraint const_mantissa2 {mantissa2 inside {[0:8388607]}; }  
   constraint const_fpu_op {fpu_op inside {[0:3]}; }  
-  constraint const_rmode {rmode inside {[0:0]}; } 
+  constraint const_rmode {rmode inside {[0:3]}; } 
 
   //assign opa = {sign1, exp1, mantissa1};
   //assign opb = {sign2, exp2, mantissa2};   
@@ -61,7 +61,7 @@ class gen_item_seq extends uvm_sequence;
 
   rand int num; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {100}; }
+  constraint c1 { num inside {1000000}; }
 
   virtual task body();
     fpu_item f_item = fpu_item::type_id::create("f_item");

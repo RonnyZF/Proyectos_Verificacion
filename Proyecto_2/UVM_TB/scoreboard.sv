@@ -58,7 +58,7 @@ class fpu_scoreboard extends uvm_scoreboard;
 	endfunction
 
     task operation();
-      $display("ENTRO EN OPERATION");
+      //$display("ENTRO EN OPERATION");
       rem = new(ref_opa.pop_back(), ref_opb.pop_back(), ref_fpu_op.pop_back(), ref_rmode.pop_back());
       rem.reference_model();
       ref_out.push_back(rem.out);
@@ -73,9 +73,9 @@ class fpu_scoreboard extends uvm_scoreboard;
     endtask
 
     virtual function void write_drv (fpu_item item);
-      $display("TASK write_drv\n");
-      $display("OPA write_drv = 0x%0h",item.opa);
-      $display("OPB write_drv = 0x%0h",item.opb);
+      //$display("TASK write_drv\n");
+      //$display("OPA write_drv = 0x%0h",item.opa);
+      //$display("OPB write_drv = 0x%0h",item.opb);
       ref_opa.push_back(item.opa);
       ref_opb.push_back(item.opb);
       ref_fpu_op.push_back(item.fpu_op);
@@ -84,7 +84,7 @@ class fpu_scoreboard extends uvm_scoreboard;
 	endfunction
   
     virtual function void write_mon (fpu_item item);
-      $display("TASK write_mon\n");
+      //$display("TASK write_mon\n");
       `uvm_info ("mon", $sformatf("out received = 0x%0h", item.out), UVM_MEDIUM)//CAMBIAR
       dut_out = item.out;
       dut_zero = item.zero;  
@@ -179,9 +179,9 @@ class fpu_scoreboard extends uvm_scoreboard;
       end
 
       if (flag_out && flag_zero && flag_snan && flag_qnan && flag_inf && flag_overflow && flag_underflow && flag_div_by_zero) begin
-        $display("************************************");
-        $display("* SB PASS - All data was correct!! *");
-        $display("************************************");
+      	`uvm_info("************************************", UVM_MEDIUM);
+      	`uvm_info("* SB PASS - All data was correct!! *", UVM_MEDIUM);
+      	`uvm_info("************************************", UVM_MEDIUM);
         // Reset de las banderas
         flag_out          = 0;
         flag_zero         = 0;    
@@ -193,10 +193,9 @@ class fpu_scoreboard extends uvm_scoreboard;
         flag_div_by_zero  = 0;
       end
       else begin
-        $display("*********************************************");
-        $display("* SB ERROR - One or more data did not match *");
-        $display("*********************************************");
-        // Reset de las banderas
+      	`uvm_info("*********************************************", UVM_MEDIUM);
+      	`uvm_error("* SB ERROR - One or more data did not match *", UVM_MEDIUM);
+      	`uvm_info("*********************************************", UVM_MEDIUM);
         flag_out          = 0;
         flag_zero         = 0;
         flag_snan         = 0;

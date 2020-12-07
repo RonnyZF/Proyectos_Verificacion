@@ -19,7 +19,13 @@ interface fpu_intf(input clk);
 
 covergroup cov0 @(clk);
     Feature_rmode: coverpoint rmode;
-    Feature_fpu_op: coverpoint fpu_op;
+    Feature_fpu_op: coverpoint intf.fpu_op{
+    bins fpu_op0 = {0};
+  	bins fpu_op1 = {1};
+  	bins fpu_op2 = {2};
+  	bins fpu_op3 = {3};
+  	bins fpu_op_misc = default;
+  	}
     Feature_inf: coverpoint inf;
     Feature_snan: coverpoint snan;
     Feature_qnan: coverpoint qnan;
@@ -28,11 +34,9 @@ covergroup cov0 @(clk);
     Feature_underflow: coverpoint underflow;
     Feature_zero: coverpoint zero;
     Feature_div_by_zero: coverpoint div_by_zero;
-    Feature_opa: coverpoint opa {option.auto_bin_max=8;}
-    Feature_opb: coverpoint opb {option.auto_bin_max=8;}
-    Feature_out: coverpoint out {option.auto_bin_max=8;}
-    Feature_empty_seq: coverpoint zero {bins seq = (0=>1=>0);}
-    Feature_full_seq: coverpoint overflow {bins seq = (0=>1=>0);}
+    Feature_opa: coverpoint opa {option.auto_bin_max=1024;}
+    Feature_opb: coverpoint opb {option.auto_bin_max=1024;}
+    Feature_out: coverpoint out {option.auto_bin_max=1024;}
   endgroup
 
   covergroup covFPU_Op @(clk);
