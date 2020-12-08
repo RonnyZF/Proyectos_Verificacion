@@ -265,7 +265,12 @@ class ref_model;
 
     // Compute the desire operation
     if((b == 0) & (this.op == 3'b011)) begin // Division By Zero
-      this.out = 32'b0;
+      if(opa[31]) begin
+        this.out = 32'hff800000;
+      end
+      else begin
+        this.out = 32'h7f800000;
+      end
       this.zero = 1'b0;
       this.snan = 1'b0;
       this.qnan = 1'b0;
@@ -300,10 +305,10 @@ class ref_model;
           //ieee_temp += 1'b1;
         end
       end
-      else if(this.round == 2'b10) begin // Round to +Inf
+      else if(this.round == 2'b10 && ~ieee_temp[31]) begin // Round to +Inf
         ieee_temp += 1'b1;
       end
-      else if(this.round == 2'b11) begin // Round to -Inf
+      else if(this.round == 2'b11 && ieee_temp[31]) begin // Round to -Inf
         ieee_temp += 1'b1;
       end
 
@@ -328,7 +333,7 @@ class ref_model;
         this.underflow = 1'b1;
         this.div_by_zero = 1'b0;
       end
-      else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] == 23'b0))begin
+      else if((ieee_temp[30:23] == 8'hff) & (ieee_temp[22:0] == 23'b0))begin
         this.out = ieee_temp;
         this.zero = 1'b0;
         this.snan = 1'b0;
@@ -338,7 +343,7 @@ class ref_model;
         this.underflow = 1'b0;
         this.div_by_zero = 1'b0;
       end
-      else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] != 23'b0))begin
+      else if((ieee_temp[30:23] == 8'hff) & (ieee_temp[22:0] != 23'b0))begin
         this.out = ieee_temp;
         this.zero = 1'b0;
         this.snan = 1'b0;
