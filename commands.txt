@@ -10,7 +10,7 @@ firefox urgReport/dashboard.html
 
 (para UVM):
 
-vcs -sverilog -F filelist -debug_access+all -full64 -cm-line-togle-assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic -gui
+vcs -sverilog -F filelist -debug_access+all -full64 -cm line+tgl+assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic -gui
 
 ./simv -cm line+tgl+assert
 
