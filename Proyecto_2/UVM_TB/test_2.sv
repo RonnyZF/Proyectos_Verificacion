@@ -23,19 +23,19 @@ class test_basic2 extends test_basic;
 endclass
 
 class gen_item_seq2 extends gen_item_seq;
-    `uvm_object_utils(gen_item_seq2)
+  `uvm_object_utils(gen_item_seq2)
   function new(string name="gen_item_seq2");
     super.new(name);
   endfunction
   
-  rand int num; 	// Config total number of items to be sent
+  int num = 10; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {[20:50]}; }
+  //constraint c1 { num inside {[20:50]}; }
   
   virtual task body();
      fpu_item f_item = fpu_item::type_id::create("f_item");
     for (int i = 0; i < num; i ++) begin
-        `uvm_do(f_item);
+      `uvm_do(f_item,,,{f_item.opb==0;f_item.fpu_op==3;})
     end
     `uvm_info("SEQ", $sformatf("Done generation of %0d items", num), UVM_LOW)
   endtask

@@ -148,16 +148,62 @@ covergroup cov0 @(clk);
     cross_op_inf : cross fpu_op, inf;
   endgroup
 
+//_______________________________________________________________________
+//______________________CASOS ESPECIFICOS________________________________
+//_______________________________________________________________________
+//Caso de redondeo
+  covergroup crossCov_rmode_test_div @(clk);
+    fpu_op: coverpoint fpu_op
+    {bins fpu_op3 = {3};
+    }
+    opa: coverpoint opa 
+    {bins opa1 = {1024};
+    }
+    opb: coverpoint opb 
+    {bins opb1 = {1024};
+    }
+    rmode: coverpoint rmode
+    {bins rmode0 = {0};
+    bins rmode1 = {1};
+    bins rmode2 = {2};
+    bins rmode3 = {3};
+    }
+    cross_op_rmode : cross fpu_op, rmode;
+  endgroup
 
-    cov0 coverage_collection_1 =new();
-    covFPU_Op coverage_collection_2 =new();
-    crossCov_op_rmode coverage_collection_3 =new();
-    crossCov_op_overflow coverage_collection_4 =new();
-    crossCov_op_underflow coverage_collection_5 =new(); 
-    crossCov_op_snan coverage_collection_6 =new();
-    crossCov_op_qnan coverage_collection_7 =new();
-    crossCov_op_ine coverage_collection_8 =new();
-    crossCov_op_inf coverage_collection_9 =new();
+//Números mas grandes
+  covergroup crossCov_op_maxNum @(clk);
+    fpu_op: coverpoint fpu_op
+    {bins fpu_op0 = {0};
+    bins fpu_op1 = {1};
+    bins fpu_op2 = {2};
+    bins fpu_op3 = {3};
+    }
+    opa: coverpoint opa 
+    {bins opa1 = {1024};
+    }
+    opb: coverpoint opb 
+    {bins opb1 = {1024};
+    }
+    cross_op_rmode : cross fpu_op, rmode;
+  endgroup
+
+//caso secuencia NAN
+
+
+
+  //_______________________________________________________________________
+
+    cov0 					coverage_collection_1  =new();
+    covFPU_Op 				coverage_collection_2  =new();
+    crossCov_op_rmode 		coverage_collection_3  =new();
+    crossCov_op_overflow 	coverage_collection_4  =new();
+    crossCov_op_underflow 	coverage_collection_5  =new(); 
+    crossCov_op_snan 		coverage_collection_6  =new();
+    crossCov_op_qnan 		coverage_collection_7  =new();
+    crossCov_op_ine 		coverage_collection_8  =new();
+    crossCov_op_inf 		coverage_collection_9  =new();
+    crossCov_rmode_test_div coverage_collection_10 =new(); 
 
 
 endinterface
