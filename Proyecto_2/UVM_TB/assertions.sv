@@ -1,6 +1,17 @@
 `define DUV_PATH top.dut
 
-module whitebox();
+module assertions();
+
+//---------------------------------------
+  //clock signal declaration
+  //---------------------------------------
+  reg clk_aux = 0;
+  
+  //---------------------------------------
+  //clock generation
+  //---------------------------------------
+  initial 
+  forever #5 clk_aux = ~clk_aux;
 
 //Constantes
 
@@ -51,15 +62,22 @@ always_comb begin // ninguna bandera puede ser XXXXX ó Z
 a6: assert (!($isunknown(`DUV_PATH.inf)||$isunknown(`DUV_PATH.snan)||$isunknown(`DUV_PATH.qnan)||$isunknown(`DUV_PATH.ine)||$isunknown(`DUV_PATH.overflow)||$isunknown(`DUV_PATH.underflow)||$isunknown(`DUV_PATH.zero)||$isunknown(`DUV_PATH.div_by_zero)));
 end
 
-/*
-  always_comb begin //si A o B cambia y el operador no cambia, resultado debe cambiar.
-    a7: assert ();
-  end
-*/
 property a8; // el reloj siempre debe correr
-@(posedge `DUV_PATH.clk) (`DUV_PATH.clk == 0);
-endproperty
+@(posedge clk_aux) (`DUV_PATH.clk == clk_aux);
+endpropertysn
 assert_a8: assert property (a8);
+
+property clk_hi; 
+      time v; 
+      @(posedge `DUV_PATH.clk) (1, v=$time) |-> @(negedge `DUV_PATH.clk) ($time-v)==5ns;
+    endproperty 
+    clk_hi_a8: assert property(clk_hi);  
+
+property clk_lo; 
+  time v; 
+  @(negedge `DUV_PATH.clk) (1, v=$time) |-> @(posedge `DUV_PATH.clk) ($time-v)==5ns;
+endproperty 
+clk_lo_a8: assert property(clk_lo); 
 
 property a9; //inf+-const = inf
 @(negedge `DUV_PATH.clk)  (((`DUV_PATH.opa == infinito) && (`DUV_PATH.opb != infinito)) && ((`DUV_PATH.fpu_op == suma)||(`DUV_PATH.fpu_op == resta))) |-> ##[2:10] $rose(`DUV_PATH.inf);
@@ -120,12 +138,7 @@ property a20;//Si resultado es menor que NumMin underflow = 1
 @(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == NumMin)&&(`DUV_PATH.opa >= NumMin)&&((`DUV_PATH.fpu_op == divi)||(`DUV_PATH.opa == resta))) |-> ##[2:10] $rose(`DUV_PATH.overflow);
 endproperty
 assert_a20: assert property (a20);
-/*
-property a21;
-@(negedge `DUV_PATH.clk) 
-endproperty
-assert_a21: assert property (a21);
-*/
+
 always_comb begin // underflow no puede ser igual que overflow cuando son 1
 a21: assert (!((`DUV_PATH.overflow == 1)&&(`DUV_PATH.underflow == 1)));
 end
