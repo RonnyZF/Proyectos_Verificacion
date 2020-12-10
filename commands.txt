@@ -21,3 +21,13 @@ vcs -R -sverilog -F filelist -debug_access+all -full64 -cm line+tgl+assert +plus
 /mnt/vol_NFS_Zener/tools/synopsys/apps/vcs-mx2/M-2017.03-SP2-5/bin/urg -full64 -dir simv.vdb/
 
 firefox urgReport/dashboard.html 
+
+Multiple runs (Proyecto 2)
+
+chmod 744 exe_sim.sh
+
+sh exe_sim.sh
+
+/mnt/vol_NFS_Zener/tools/synopsys/apps/vcs-mx2/M-2017.03-SP2-5/bin/urg -full64 -dir test1/simv.vdb/ test2/simv.vdb/ test3/simv.vdb/ test4/simv.vdb/ test5/simv.vdb/ test6/simv.vdb/
+
+firefox urgReport/dashboard.html 
