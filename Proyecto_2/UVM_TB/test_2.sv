@@ -33,7 +33,7 @@ class gen_item_seq2 extends gen_item_seq;
   constraint c1 { num inside {[20:50]}; }
   
   virtual task body();
-     fifo_item f_item = fifo_item::type_id::create("f_item");
+     fpu_item f_item = fpu_item::type_id::create("f_item");
     for (int i = 0; i < num; i ++) begin
         `uvm_do(f_item);
     end

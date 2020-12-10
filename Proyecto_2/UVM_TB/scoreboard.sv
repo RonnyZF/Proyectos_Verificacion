@@ -73,9 +73,9 @@ class fpu_scoreboard extends uvm_scoreboard;
     endtask
 
     virtual function void write_drv (fpu_item item);
-      //$display("TASK write_drv\n");
-      //$display("OPA write_drv = 0x%0h",item.opa);
-      //$display("OPB write_drv = 0x%0h",item.opb);
+      $display("TASK write_drv\n");
+      $display("OPA write_drv = 0x%0h",item.opa);
+      $display("OPB write_drv = 0x%0h",item.opb);
       ref_opa.push_back(item.opa);
       ref_opb.push_back(item.opb);
       ref_fpu_op.push_back(item.fpu_op);
@@ -265,12 +265,7 @@ class ref_model;
 
     // Compute the desire operation
     if((b == 0) & (this.op == 3'b011)) begin // Division By Zero
-      if(opa[31]) begin
-        this.out = 32'hff800000;
-      end
-      else begin
-        this.out = 32'h7f800000;
-      end
+      this.out = 32'b0;
       this.zero = 1'b0;
       this.snan = 1'b0;
       this.qnan = 1'b0;
@@ -305,10 +300,10 @@ class ref_model;
           //ieee_temp += 1'b1;
         end
       end
-      else if(this.round == 2'b10 && ~ieee_temp[31]) begin // Round to +Inf
+      else if(this.round == 2'b10) begin // Round to +Inf
         ieee_temp += 1'b1;
       end
-      else if(this.round == 2'b11 && ieee_temp[31]) begin // Round to -Inf
+      else if(this.round == 2'b11) begin // Round to -Inf
         ieee_temp += 1'b1;
       end
 
@@ -333,7 +328,7 @@ class ref_model;
         this.underflow = 1'b1;
         this.div_by_zero = 1'b0;
       end
-      else if((ieee_temp[30:23] == 8'hff) & (ieee_temp[22:0] == 23'b0))begin
+      else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] == 23'b0))begin
         this.out = ieee_temp;
         this.zero = 1'b0;
         this.snan = 1'b0;
@@ -343,7 +338,7 @@ class ref_model;
         this.underflow = 1'b0;
         this.div_by_zero = 1'b0;
       end
-      else if((ieee_temp[30:23] == 8'hff) & (ieee_temp[22:0] != 23'b0))begin
+      else if((ieee_temp[30:23] == 8'b1) & (ieee_temp[22:0] != 23'b0))begin
         this.out = ieee_temp;
         this.zero = 1'b0;
         this.snan = 1'b0;

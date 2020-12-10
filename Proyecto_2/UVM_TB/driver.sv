@@ -59,13 +59,13 @@ class gen_item_seq extends uvm_sequence;
     super.new(name);
   endfunction
 
-  rand int num; 	// Config total number of items to be sent
+  int num = 1; 	// Config total number of items to be sent
 
-  constraint c1 { num inside {10}; }
+  //constraint c1 { num inside {5}; }
 
   virtual task body();
     fpu_item f_item = fpu_item::type_id::create("f_item");
-    
+
     for (int i = 0; i < num; i ++) begin
       //start_item(f_item);
     	//f_item.randomize();
@@ -107,8 +107,6 @@ class fpu_driver extends uvm_driver #(fpu_item);
       seq_item_port.get_next_item(f_item);
       fork
         operation(f_item);
-        //overflow(f_item);
-        //div_zero(f_item);
       join
       seq_item_port.item_done();
     end
@@ -125,27 +123,5 @@ class fpu_driver extends uvm_driver #(fpu_item);
     end
      @ (negedge intf.clk);
   endtask
-
-  task overflow(fpu_item f_item);
-    begin
-      @ (negedge intf.clk);
-      intf.opa = 32'h7F7FFFFF;
-      intf.opb = f_item.opb;
-      intf.fpu_op = 3'b010;
-      intf.rmode = f_item.rmode;
-    end
-     @ (negedge intf.clk);
-  endtask
-
-  task div_zero(fpu_item f_item);
-    begin
-      @ (negedge intf.clk);
-      intf.opa = f_item.opa;
-      intf.opb = 32'h00000000;
-      intf.fpu_op = 3'b011;
-      intf.rmode = f_item.rmode;
-    end
-     @ (negedge intf.clk);
-  endtask    
   
 endclass

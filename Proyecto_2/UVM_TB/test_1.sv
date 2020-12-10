@@ -29,6 +29,8 @@ class test_basic extends uvm_test;
   endfunction : end_of_elaboration_phase
 
   gen_item_seq seq;
+  gen_item_seq seq2;
+  gen_item_seq seq3;
 
   virtual task run_phase(uvm_phase phase);
 
@@ -41,11 +43,20 @@ class test_basic extends uvm_test;
     uvm_report_info(get_full_name(),"Init Done", UVM_LOW);
     
     seq = gen_item_seq::type_id::create("seq");
-    
+    seq.num=500;
+	seq.srandom(1656);
     seq.randomize();
     seq.start(env.fpu_ag_active.fpu_seqr);
     
+    seq2 = gen_item_seq::type_id::create("seq2");
+    seq2.num=500;
+	seq2.srandom(54);
+    seq2.randomize();
+    seq2.start(env.fpu_ag_active.fpu_seqr);
+    
+
     phase.drop_objection (this);
+
   endtask
 
 endclass
