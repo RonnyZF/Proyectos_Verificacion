@@ -1,0 +1,1 @@
++define+VCS +incdir+${UVM_HOME}/src ${UVM_HOME}/src/uvm_pkg.sv ${UVM_HOME}/src/dpi ${UVM_HOME}/src/dpi/uvm_dpi.cc DUT/except.v DUT/post_norm.v DUT/pre_norm.v DUT/pre_norm_fmul.v DUT/primitives.v DUT/fpu.v UVM_TB/top.sv UVM_TB/interface.sv UVM_TB/driver.sv UVM_TB/monitor.sv UVM_TB/scoreboard.sv UVM_TB/agent.sv UVM_TB/env.sv UVM_TB/test_1.sv UVM_TB/test_2.sv UVM_TB/assertions.sv
