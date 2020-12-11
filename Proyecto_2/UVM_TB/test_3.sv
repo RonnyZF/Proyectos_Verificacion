@@ -28,15 +28,33 @@ class gen_item_seq3 extends gen_item_seq2;
     super.new(name);
   endfunction
   
-  rand int num; 	// Config total number of items to be sent
+  //rand int num; 	// Config total number of items to be sent
+  int num = 10;
 
-  constraint c1 { num inside {[20:50]}; }
+  //constraint c1 { num inside {[20:50]}; }
   
   virtual task body();
      fifo_item f_item = fifo_item::type_id::create("f_item");
+    // Div by Zero
     for (int i = 0; i < num; i ++) begin
-      `uvm_do(f_item,,,{f_item.rd==1;})
+      `uvm_do(f_item,,,{f_item.opb==0;f_item.fpu_op==3;})
     end
+
+    // NaN
+    for (int i = 0; i < num; i ++) begin
+      `uvm_do(f_item,,,{f_item.opa==32'h7F800001;f_item.fpu_op==0;})
+    end
+
+    // Normal ops
+    for (int i = 0; i < num; i ++) begin
+      `uvm_do(f_item);
+    end
+
+    // Zero Flag and div by zero
+    for (int i = 0; i < num; i ++) begin
+      `uvm_do(f_item,,,{f_item.opa==0;f_item.opb==0;})
+    end
+
     `uvm_info("SEQ", $sformatf("Done generation of %0d items", num), UVM_LOW)
   endtask
 
