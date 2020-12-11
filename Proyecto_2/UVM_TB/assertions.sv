@@ -135,7 +135,7 @@ endproperty
 assert_a19: assert property (a19);
 
 property a20;//Si resultado es menor que NumMin underflow = 1
-@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == NumMin)&&(`DUV_PATH.opa >= NumMin)&&((`DUV_PATH.fpu_op == divi)||(`DUV_PATH.opa == resta))) |-> ##[2:10] $rose(`DUV_PATH.overflow);
+@(negedge `DUV_PATH.clk) ((`DUV_PATH.opa == NumMin)&&(`DUV_PATH.opa >= NumMin)&&((`DUV_PATH.fpu_op == divi)||(`DUV_PATH.opa == resta))) |-> ##[2:10] $rose(`DUV_PATH.underflow);
 endproperty
 assert_a20: assert property (a20);
 

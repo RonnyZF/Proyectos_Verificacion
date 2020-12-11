@@ -28,136 +28,94 @@ class gen_item_seq2 extends gen_item_seq;
     super.new(name);
   endfunction
   
-  int num = 10; 	// Config total number of items to be sent
+  int num = 30; 	// Config total number of items to be sent
 
   //constraint c1 { num inside {[20:50]}; }
   
   virtual task body();
-    
      fpu_item f_item = fpu_item::type_id::create("f_item");
+	
+
+    for (int i = 0; i < num; i ++) begin
+
     // Asercion 1
-    for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opb==0;f_item.fpu_op==3;})
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 2
-    for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==32'h3FA00000;f_item.opb==32'hBFA00000;f_item.fpu_op==0;})
-    end
-    
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 3
-    for (int i = 0; i < num; i ++) begin
+      $display("Aqui inicia asercion 3");
       `uvm_do(f_item,,,{f_item.opa==32'h3FA00000;f_item.opb==32'h3FA00000;f_item.fpu_op==1;})
-    end
-    
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})  
     // Asercion 4a
-    for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==0;f_item.fpu_op==2;})
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})   
     // Asercion 4b
-    for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opb==0;f_item.fpu_op==2;})
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})    
     // Asercion 5
-    for (int i = 0; i < num; i ++) begin
-      `uvm_do(f_item,,,{f_item.opa==0;f_item.fpu_op==3;})
-    end
+      `uvm_do(f_item,,,{f_item.opa==0;f_item.opb==2;f_item.fpu_op==3;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 9+
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.fpu_op==0;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.fpu_op==0;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})    
     // Asercion 9-
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.fpu_op==1;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.fpu_op==1;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 10+
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opb==32'h7F800000;f_item.fpu_op==0;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opb==32'hFF800000;f_item.fpu_op==0;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 10-
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opb==32'h7F800000;f_item.fpu_op==1;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opb==32'hFF800000;f_item.fpu_op==1;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})      
     // Asercion 11
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
-        `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.fpu_op==2;})
-      end
-      else begin
-        `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.fpu_op==2;})
-      end
-    end 
+        `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.opb==32'h3F800000;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
+        `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.opb==32'h3F800000;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 12
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
-        `uvm_do(f_item,,,{f_item.opb==32'h7F800000;f_item.fpu_op==3;})
-      end
-      else begin
-        `uvm_do(f_item,,,{f_item.opb==32'hFF800000;f_item.fpu_op==3;})
-      end
-    end
+        `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h7F800000;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
+        `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'hFF800000;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 13
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
-        `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.fpu_op==3;})
-      end
-      else begin
-        `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.fpu_op==3;})
-      end
-    end
+        `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.opb==32'h3F800000;f_item.fpu_op==3;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
+        `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.opb==32'h3F800000;f_item.fpu_op==3;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})    
     // Asercion 14
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.opb==0;f_item.fpu_op==2;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.opb==0;f_item.fpu_op==2;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 15
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.opb==32'h7F800000;f_item.fpu_op==0;})
-      end
-      else begin
-        `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.opb==32'hFF800000;f_item.fpu_op==0;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 16
-    for (int i = 0; i < num; i ++) begin
-      if(i%2) begin
         `uvm_do(f_item,,,{f_item.opa==32'h7F800000;f_item.opb==32'h7F800000;f_item.fpu_op==3;})
-      end
-      else begin
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
         `uvm_do(f_item,,,{f_item.opa==32'hFF800000;f_item.opb==32'h7F800000;f_item.fpu_op==3;})
-      end
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 17
-    for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==0;f_item.opb==0;f_item.fpu_op==3;})
-    end
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
+    // Asercion 18
+      `uvm_do(f_item,,,{f_item.opa==32'h7F7FFFFF;f_item.opb==32'h40000000;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
+    // Asercion 18
+      `uvm_do(f_item,,,{f_item.opa==32'h40000000;f_item.opb==32'h7F7FFFFF;f_item.fpu_op==2;})
+      `uvm_do(f_item,,,{f_item.opa==32'h3F800000;f_item.opb==32'h3F800000;f_item.fpu_op==0;})
     // Asercion 20
-    for (int i = 0; i < num; i ++) begin
-      `uvm_do(f_item,,,{f_item.opa==32'h00000001;f_item.opb==32'h00000001;f_item.fpu_op==0;})
+      `uvm_do(f_item,,,{f_item.opa==32'h00000001;f_item.opb==32'h461C0000;f_item.fpu_op==3;})
     end
     `uvm_info("SEQ", $sformatf("Done generation of %0d items", num), UVM_LOW)
   endtask
