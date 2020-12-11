@@ -29,7 +29,7 @@ class gen_item_seq3 extends gen_item_seq2;
   endfunction
   
   //rand int num; 	// Config total number of items to be sent
-  int num = 50;
+  int num = 500;
 
   //constraint c1 { num inside {[20:50]}; }
   

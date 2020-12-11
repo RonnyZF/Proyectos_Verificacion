@@ -28,7 +28,7 @@ class gen_item_seq2 extends gen_item_seq;
     super.new(name);
   endfunction
   
-  int num = 30; 	// Config total number of items to be sent
+  int num = 300; 	// Config total number of items to be sent
 
   //constraint c1 { num inside {[20:50]}; }
   

@@ -41,7 +41,7 @@ class test_basic extends uvm_test;
     uvm_report_info(get_full_name(),"Init Done", UVM_LOW);
     
     seq = gen_item_seq::type_id::create("seq");
-    seq.num=50;
+    seq.num=500000;
     seq.randomize();
     seq.start(env.fpu_ag_active.fpu_seqr);
 

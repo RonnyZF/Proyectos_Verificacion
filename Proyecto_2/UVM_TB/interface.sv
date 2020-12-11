@@ -166,7 +166,13 @@ covergroup cov0 @(clk);
     opb: coverpoint opb 
     {bins opb1 = {32'h7F7FFFFF};
     }
-    cross_op_rmode : cross fpu_op, opa, opb;
+    rmode: coverpoint rmode
+    {bins rmode0 = {0};
+    bins rmode1 = {1};
+    bins rmode2 = {2};
+    bins rmode3 = {3};
+    }
+    cross_op_rmode : cross fpu_op, opa, opb, rmode;
   endgroup
 
 //caso secuencia NAN
