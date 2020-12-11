@@ -64,7 +64,7 @@ end
 
 property a8; // el reloj siempre debe correr
 @(posedge clk_aux) (`DUV_PATH.clk == clk_aux);
-endpropertysn
+endproperty
 assert_a8: assert property (a8);
 
 property clk_hi; 

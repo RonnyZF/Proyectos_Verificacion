@@ -33,7 +33,7 @@ class gen_item_seq2 extends gen_item_seq;
   //constraint c1 { num inside {[20:50]}; }
   
   virtual task body();
-    /*
+    
      fpu_item f_item = fpu_item::type_id::create("f_item");
     // Asercion 1
     for (int i = 0; i < num; i ++) begin
@@ -43,12 +43,12 @@ class gen_item_seq2 extends gen_item_seq;
     for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==32'h3FA00000;f_item.opb==32'hBFA00000;f_item.fpu_op==0;})
     end
-    */
+    
     // Asercion 3
     for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==32'h3FA00000;f_item.opb==32'h3FA00000;f_item.fpu_op==1;})
     end
-    /*
+    
     // Asercion 4a
     for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==0;f_item.fpu_op==2;})
@@ -159,7 +159,6 @@ class gen_item_seq2 extends gen_item_seq;
     for (int i = 0; i < num; i ++) begin
       `uvm_do(f_item,,,{f_item.opa==32'h00000001;f_item.opb==32'h00000001;f_item.fpu_op==0;})
     end
-    */
     `uvm_info("SEQ", $sformatf("Done generation of %0d items", num), UVM_LOW)
   endtask
 
