@@ -22,12 +22,12 @@ cd ..
 
 mkdir test5
 cd test5
-vcs -R -sverilog -F ../filelist -debug_access+all -full64 -cm line+tgl+assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic +ntb_random_seed=36
+vcs -R -sverilog -F ../filelist -debug_access+all -full64 -cm line+tgl+assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic2 +ntb_random_seed=36
 cd ..
 
 mkdir test6
 cd test6
-vcs -R -sverilog -F ../filelist -debug_access+all -full64 -cm line+tgl+assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic2 +ntb_random_seed=516
+vcs -R -sverilog -F ../filelist -debug_access+all -full64 -cm line+tgl+assert +plusarg_save -timescale=1ns/1ns +UVM_TESTNAME=test_basic3 +ntb_random_seed=516
 cd ..
 
 

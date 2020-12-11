@@ -151,28 +151,9 @@ covergroup cov0 @(clk);
 //_______________________________________________________________________
 //______________________CASOS ESPECIFICOS________________________________
 //_______________________________________________________________________
-//Caso de redondeo
-  covergroup crossCov_rmode_test_div @(clk);
-    fpu_op: coverpoint fpu_op
-    {bins fpu_op3 = {3};
-    }
-    opa: coverpoint opa 
-    {bins opa1 = {1024};
-    }
-    opb: coverpoint opb 
-    {bins opb1 = {1024};
-    }
-    rmode: coverpoint rmode
-    {bins rmode0 = {0};
-    bins rmode1 = {1};
-    bins rmode2 = {2};
-    bins rmode3 = {3};
-    }
-    cross_op_rmode : cross fpu_op, rmode;
-  endgroup
 
 //Números mas grandes
-  covergroup crossCov_op_maxNum @(clk);
+  covergroup testCov_op_maxNum @(clk);
     fpu_op: coverpoint fpu_op
     {bins fpu_op0 = {0};
     bins fpu_op1 = {1};
@@ -180,18 +161,211 @@ covergroup cov0 @(clk);
     bins fpu_op3 = {3};
     }
     opa: coverpoint opa 
-    {bins opa1 = {1024};
+    {bins opa1 = {32'h7F7FFFFF};
     }
     opb: coverpoint opb 
-    {bins opb1 = {1024};
+    {bins opb1 = {32'h7F7FFFFF};
     }
-    cross_op_rmode : cross fpu_op, rmode;
+    cross_op_rmode : cross fpu_op, opa, opb;
   endgroup
 
 //caso secuencia NAN
+  covergroup cov_NAN @(clk);
+      Feature_full_seq: coverpoint intf.snan {bins seq = (1=>1=>1=>1=>1);}
+    endgroup
 
+//Caso Redondeo
+	covergroup testCov_rmode_1_8 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F4CCCCD};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
 
+	  covergroup testCov_rmode_1_5 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F000000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
 
+	  covergroup testCov_rmode_1_2 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3E4CCCCD};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_0_8 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3FE66666};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F800000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_0_5 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3FC00000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F800000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_0_2 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F99999A};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F800000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m0_2 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F99999A};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m0_5 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3FC00000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m0_8 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'h3F800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3FE66666};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m1_2 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'hBF800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3E4CCCCD};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m1_5 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'hBF800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F000000};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
+
+	  covergroup testCov_rmode_m1_8 @(clk);
+		rmode: coverpoint rmode
+	    {bins rmode0 = {0};
+	    bins rmode1 = {1};
+	    bins rmode2 = {2};
+	    bins rmode3 = {3};
+	    }
+	    opa: coverpoint opa 
+	    {bins opa1 = {32'hBF800000};
+	    }
+	    opb: coverpoint opb 
+	    {bins opb1 = {32'h3F4CCCCD};
+	    }
+	    cross_rmode : cross rmode, opa, opb;
+	  endgroup
   //_______________________________________________________________________
 
     cov0 					coverage_collection_1  =new();
@@ -203,7 +377,20 @@ covergroup cov0 @(clk);
     crossCov_op_qnan 		coverage_collection_7  =new();
     crossCov_op_ine 		coverage_collection_8  =new();
     crossCov_op_inf 		coverage_collection_9  =new();
-    crossCov_rmode_test_div coverage_collection_10 =new(); 
+    testCov_op_maxNum  coverage_collection_11 =new(); 
+    cov_NAN  coverage_collection_12 =new(); 
+    testCov_rmode_1_8  coverage_collection_13 =new(); 
+    testCov_rmode_1_5  coverage_collection_14 =new(); 
+    testCov_rmode_1_2  coverage_collection_15 =new(); 
+    testCov_rmode_0_8  coverage_collection_16 =new(); 
+    testCov_rmode_0_5  coverage_collection_17 =new(); 
+    testCov_rmode_0_2  coverage_collection_18 =new(); 
+    testCov_rmode_m0_2  coverage_collection_19 =new(); 
+    testCov_rmode_m0_5  coverage_collection_20 =new(); 
+    testCov_rmode_m0_8  coverage_collection_21 =new(); 
+    testCov_rmode_m1_2  coverage_collection_22 =new(); 
+    testCov_rmode_m1_5  coverage_collection_23 =new(); 
+    testCov_rmode_m1_8  coverage_collection_24 =new(); 
 
 
 endinterface
